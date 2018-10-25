@@ -1,6 +1,6 @@
 ##------------------------------------------------------------------------------
 ##
-## Doom64EX CMake configuration
+## ImDoom64 CMake configuration
 ##
 ## LICENSE:
 ##

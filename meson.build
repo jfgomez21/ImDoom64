@@ -1,6 +1,6 @@
 ##------------------------------------------------------------------------------
 ##
-## Doom64EX meson configuration
+## ImDoom 64 meson configuration
 ##
 ## LICENSE:
 ##
@@ -23,9 +23,10 @@
 ##
 
 project(
-  'Doom64EX', ['c', 'cpp'],
-  version : '3.0.0-git',
-  license : 'GPL',
+  'ImDoom64', ['c', 'cpp'],
+  version : '0.1.0',
+  meson_version : '>=0.46.0',
+  license : 'GPLv2',
   default_options : [
     'cpp_std=c++14'
   ]
@@ -84,7 +85,7 @@ if not fluid_dep.found()
 endif
 
 ##------------------------------------------------------------------------------
-## Target: doom64ex.pk3 (data)
+## Target: imdoom64.pk3 (data)
 ##
 zip_prog = find_program('zip', required : false, native : true)
 if zip_prog.found()
@@ -92,23 +93,23 @@ if zip_prog.found()
   message(res.stdout())
 
   if target_machine.system() == 'linux'
-    install_dir = 'usr/share/doom64ex'
+    install_dir = 'usr/share/imdoom64'
   elif target_machine.system() == 'darwin'
-    install_dir = 'Resource/Doom64EX'
+    install_dir = 'Resource/ImDoom64'
   else
     error('Unsupported target OS!')
   endif
 
   if res.returncode() == 0
     install_data(
-      join_paths(meson.current_build_dir(), 'doom64ex.pk3'),
+      join_paths(meson.current_build_dir(), 'imdoom64.pk3'),
       install_dir : install_dir
     )
   else
-    warning('Could not create doom64ex.pk3. The game will not run without this file!')
+    warning('Could not create imdoom64.pk3. The game will not run without this file!')
   endif
 else
-  warning('`zip` program not found. Can\'t generate `doom64ex.pk3`')
+  warning('`zip` program not found. Can\'t generate `imdoom64.pk3`')
 endif
 
 ##------------------------------------------------------------------------------
@@ -121,7 +122,7 @@ else
 endif
 
 ##------------------------------------------------------------------------------
-## Target: doom64ex (engine)
+## Target: imdoom64 (engine)
 ##
 subdir('src/engine')
 
@@ -143,7 +144,7 @@ if target_machine.system() == 'linux'
 
   foreach icon_size : icon_sizes
     install_data(
-      join_paths('data/icons', icon_size, 'doom64ex.png'),
+      join_paths('data/icons', icon_size, 'imdoom64.png'),
       install_dir : join_paths(data_dir, 'icons/hicolor', icon_size, 'apps'),
       rename : '@0@.png'.format(program_name)
     )
@@ -155,7 +156,7 @@ if target_machine.system() == 'linux'
   ##
   # freedesktop Desktop file
   configure_file(
-    input : 'data/doom64ex.desktop.in',
+    input : 'data/imdoom64.desktop.in',
     output : '@0@.desktop'.format(program_name),
     configuration : desktop_data
   )
@@ -167,7 +168,7 @@ if target_machine.system() == 'linux'
   ##
   # freedesktop Appstream file
   configure_file(
-    input : 'data/doom64ex.appdata.xml.in',
+    input : 'data/imdoom64.appdata.xml.in',
     output : '@0@.appdata.xml'.format(program_name),
     configuration : desktop_data
   )
@@ -177,7 +178,7 @@ if target_machine.system() == 'linux'
   )
 
   # install_data(
-  #   'data/doom64ex.6',
+  #   'data/imdoom64.6',
   #   install_dir : 'usr/share/man'
   # )
 endif
@@ -186,7 +187,7 @@ endif
 ## Install: MacOS misc data
 ##
 if target_machine.system() == 'darwin'
-  install_data('data/Doom64EX.icns', install_dir : 'Contents/Resources')
+  install_data('data/ImDoom64.icns', install_dir : 'Contents/Resources')
   install_data('data/Info.plist', install_dir : 'Contents')
 endif
 

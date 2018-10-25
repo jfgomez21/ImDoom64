@@ -5,7 +5,7 @@
   <object class="GtkTextBuffer" id="text_buffer"/>
   <template class="ConsoleWindow" parent="GtkWindow">
     <property name="can_focus">False</property>
-    <property name="title" translatable="yes">Doom64EX Console</property>
+    <property name="title" translatable="yes">ImDoom 64 Console</property>
     <property name="default_width">580</property>
     <property name="default_height">380</property>
     <child>

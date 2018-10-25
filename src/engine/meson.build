@@ -1,6 +1,6 @@
 ##------------------------------------------------------------------------------
 ##
-## Doom64EX meson configuration
+## ImDoom64 meson configuration
 ##
 ## LICENSE:
 ##
@@ -26,7 +26,7 @@
 ## Config header
 ##
 conf_data = configuration_data()
-conf_data.set('PROJECT_NAME', 'Doom64EX')
+conf_data.set('PROJECT_NAME', 'ImDoom64')
 conf_data.set('VERSION', '3.0.0-git')
 conf_data.set('VERSION_GIT', '3.0.0-git')
 conf_data.set('VERSION_FULL', '3.0.0-git')

@@ -3,7 +3,7 @@ extern void nui_gtk_rom_open (string path);
 extern bool nui_gtk_rom_valid ();
 extern string nui_gtk_rom_version ();
 
-[GtkTemplate(ui = "/com/github/Doom64EX/rom-dialog.ui")]
+[GtkTemplate(ui = "/com/github/ImDoom64/rom-dialog.ui")]
 class RomDialog : Gtk.Dialog {
 	[GtkChild]
 	private Gtk.Label rom_version;

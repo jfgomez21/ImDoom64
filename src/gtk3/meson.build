@@ -1,6 +1,6 @@
 ##------------------------------------------------------------------------------
 ##
-## Doom64EX meson configuration
+## ImDoom64 meson configuration
 ##
 ## LICENSE:
 ##

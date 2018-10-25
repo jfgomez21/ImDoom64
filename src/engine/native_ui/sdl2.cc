@@ -26,7 +26,7 @@ void NativeUI::console_add_line(StringView)
 
 void NativeUI::error(const std::string &line)
 {
-    SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Doom64EX Fatal Error", line.c_str(), nullptr);
+    SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "ImDoom 64 fatal error", line.c_str(), nullptr);
 }
 
 Optional<String> NativeUI::rom_select()

@@ -1,20 +1,16 @@
-.TH DOOM64EX "6" "September 2016" "Doom64EX" "Games"
+.TH IMDOOM64 "6" "September 2016" "ImDoom64" "Games"
 .SH NAME
-doom64ex \- Recreation of Midway's Doom64 for modern operating systems.
+doom64 \- Recreation of Midway's Doom 64 for modern operating systems.
 .SH SYNOPSIS
-.B doom64ex
+.B doom64
 [\fIoptions...\fR]
-.P
-\fBdoom64ex\fR \-wadgen \fI<rom\-file>\fR
 .SH DESCRIPTION
 Doom 64 is a Doom spin-off for the Nintendo 64.
 .P
-\fBdoom64ex\fR is a faithful recreation of the original Nintendo 64 game using
+\fBImDoom64\fR is a faithful recreation of the original Nintendo 64 game using
 PC Doom's source code as the base.
 .P
-\fBdoom64ex\fR requires the data files from the original game. These must be
-extracted from a Nintendo 64 ROM image, using the \fBdoom64ex\fR \-wadgen
-command (see \fBDATA FILES\fR, below).
+\fBImDoom64\fR requires the ROM from the original game.
 .SH OPTIONS
 .SS File Options
 .TP
@@ -26,7 +22,7 @@ Add a PWAD (patch WAD). Used for custom levels, music, etc.
 .TP
 \fB\-config\fR \fI<configfile>\fR
 Use \fIconfigfile\fR instead of the default config file (which is
-\fI$XDG_DATA_HOME/doom64ex/config.cfg\fR).
+\fI$XDG_DATA_HOME/ImDoom64/config.cfg\fR).
 .SS Game Options
 .TP
 \fB\-warp\fR \fI<level>\fR
@@ -92,7 +88,7 @@ is always added, so don't include it in the lump name.
 Play back a demo. If the filename has no file
 extension, ".lmp" will be appended. Press the space bar to stop the demo.
 .SS Network Options
-Note that the networking support in \fBdoom64ex\fR is experimental.
+Note that the networking support in \fBImDoom64\fR is experimental.
 .TP
 \fB\-server\fR
 Host a game. When one or more clients connects, press any
@@ -105,32 +101,22 @@ Connect to a game hosted by the server.
 Specify network UDP port for \fB\-connect\fR or \fB\-server\fR options. Default
 port is 2342.
 .SH DATA FILES
-\fBdoom64ex\fR (and Doom\-related games in general) load all game resources
-such as graphics and levels from a file known as an IWAD file. In
-addition, \fBdoom64ex\fR loads its sounds from a SoundFont file.
-.P
-The assets for Doom 64 must be extracted from a Nintendo 64 ROM image.
-\fBdoom64ex\fR includes a command to do this. Usage:
-.P
-\fBdoom64ex\fR \-wadgen \fI<rom\-file>\fR
-.P
-\fI<rom\-file>\fR must be a Doom 64 ROM image, in .z64 format. The files \fBdoom64.wad\fR
-and \fBdoomsnd.sf2\fR will be written to \fI$XDG_DATA_HOME/doom64ex/\fR.
+\fI<rom\-file>\fR must be a Doom 64 ROM image, in .z64, .r64 or .n64 format.
 .SH OTHER FILES
 .TP
-\fI$XDG_DATA_HOME/doom64ex/\fR
+\fI$XDG_DATA_HOME/ImDoom64/\fR
 The config file (\fBconfig.cfg\fR) is located here.
 It will be created if it doesn't already exist. Saved games are also stored here
 as \fBdoomsav\fR\fIn\fR\fB.dsg\fR, where \fIn\fR is the save slot, numbered 0 to
 7.
 .SH AUTHORS
-Samuel 'Kaiser' Villarreal <svkaiser@gmail.com>
-.br
-Doom64EX Author.
-.P
 Zohar 'dotfloat' Malamant <dotfloat@gmail.com>
 .br
-Current maintainer and developer of the project.
+Current maintainer and developer of the ImDoom64 project.
+.P
+Samuel 'Kaiser' Villarreal <svkaiser@gmail.com>
+.br
+Original Doom64 EX Author.
 .P
 Paul Brook
 .br

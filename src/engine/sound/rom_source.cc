@@ -945,7 +945,7 @@ fluid_sfont_t* rom_sfont()
     /* create a RAM soundfont */
     auto sfont = fluid_ramsfont_create_sfont();
     auto ramsfont = (fluid_ramsfont_t*) sfont->data;
-    fluid_ramsfont_set_name(ramsfont, "Doom64EX RomSource");
+    fluid_ramsfont_set_name(ramsfont, "ImDoom64 RomSource");
 
     load_sn64_();
     load_sseq_();
@@ -1003,7 +1003,7 @@ fluid_sfont_t* rom_sfont()
     }
 
     struct Soundfont {
-        char name[20] = "Doom64EX RomSource";
+        char name[20] = "ImDoom64 RomSource";
         size_t iter;
     };
 

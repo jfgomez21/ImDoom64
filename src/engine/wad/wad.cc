@@ -73,11 +73,11 @@ void wad::init()
 #endif
     }
 
-    // Find and add 'doom64ex.pk3'
-    if (auto engine_data_path = app::find_data_file("doom64ex.pk3")) {
+    // Find and add 'imdoom64.pk3'
+    if (auto engine_data_path = app::find_data_file("imdoom64.pk3")) {
         wad::add_device(*engine_data_path);
     } else {
-        log::fatal("Couldn't find 'doom64ex.pk3'");
+        log::fatal("Couldn't find 'imdoom64.pk3'");
     }
 
     wad::merge();

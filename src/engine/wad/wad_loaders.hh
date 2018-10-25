@@ -1,5 +1,5 @@
-#ifndef DOOM64EX_WAD_LOADERS_HH
-#define DOOM64EX_WAD_LOADERS_HH
+#ifndef WAD_LOADERS_HH
+#define WAD_LOADERS_HH
 
 #include "idevice.hh"
 
@@ -11,4 +11,4 @@ namespace imp {
   }
 }
 
-#endif //DOOM64EX_WAD_LOADERS_HH
+#endif //WAD_LOADERS_HH

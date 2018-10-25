@@ -1,6 +1,6 @@
 ##------------------------------------------------------------------------------
 ##
-## Doom64EX CMake configuration
+## ImDoom64 CMake configuration
 ##
 ## LICENSE:
 ##
@@ -265,18 +265,18 @@ set(SOURCES
 ## Build target
 ##
 
-add_executable(doom64ex MACOSX_BUNDLE WIN32 ${SOURCES})
-target_include_directories(doom64ex PRIVATE ${INCLUDES})
-target_link_libraries(doom64ex ${LIBRARIES})
-set_property(TARGET doom64ex PROPERTY CXX_STANDARD 14)
+add_executable(doom64 MACOSX_BUNDLE WIN32 ${SOURCES})
+target_include_directories(doom64 PRIVATE ${INCLUDES})
+target_link_libraries(doom64 ${LIBRARIES})
+set_property(TARGET doom64 PROPERTY CXX_STANDARD 14)
 
 if(WIN32)
-  set_property(TARGET doom64ex PROPERTY COMPILE_FLAGS "-DFLUIDSYNTH_NOT_A_DLL")
+  set_property(TARGET doom64 PROPERTY COMPILE_FLAGS "-DFLUIDSYNTH_NOT_A_DLL")
 endif(WIN32)
 
 if(WIN32)
   # Copy DLL files over
-  add_custom_command(TARGET doom64ex POST_BUILD
+  add_custom_command(TARGET doom64 POST_BUILD
     COMMAND "${CMAKE_COMMAND}" -E copy "${CMAKE_SOURCE_DIR}/extern/bin/libpng16.dll" "${CMAKE_BINARY_DIR}/libpng16.dll"
     COMMAND "${CMAKE_COMMAND}" -E copy "${CMAKE_SOURCE_DIR}/extern/bin/SDL2.dll" "${CMAKE_BINARY_DIR}/SDL2.dll"
     COMMAND "${CMAKE_COMMAND}" -E copy "${CMAKE_SOURCE_DIR}/extern/bin/SDL2_net.dll" "${CMAKE_BINARY_DIR}/SDL2_net.dll"
@@ -290,9 +290,9 @@ endif(WIN32)
 if (NOT WIN32)
   if (APPLE)
     install(CODE "include(BundleUtilities)"
-      "fixup_bundle(\"${CMAKE_CURRENT_BINARY_DIR}/doom64ex.app\" \"\" \"\")")
-    install(DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/doom64ex.app" DESTINATION /Applications USE_SOURCE_PERMISSIONS)
+      "fixup_bundle(\"${CMAKE_CURRENT_BINARY_DIR}/ImDoom64.app\" \"\" \"\")")
+    install(DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/ImDoom64.app" DESTINATION /Applications USE_SOURCE_PERMISSIONS)
   else ()
-    install(PROGRAMS ${CMAKE_BINARY_DIR}/doom64ex DESTINATION bin)
+    install(PROGRAMS ${CMAKE_BINARY_DIR}/ImDoom64 DESTINATION bin)
   endif ()
 endif ()

@@ -79,7 +79,7 @@ namespace {
                       });
 
       /* Grab offset information if available. This seems like a hack since this is
-       * probably only used by Doom64EX and not a general thing as this file might imply. */
+       * probably only used by ImDoom 64 and not a general thing as this file might imply. */
       SpriteOffset offset;
       auto chunk_fn = [](png_structp p, png_unknown_chunkp chunk) -> int {
           if (std::strncmp((char*)chunk->name, "grAb", 4) == 0 && chunk->size >= 8) {

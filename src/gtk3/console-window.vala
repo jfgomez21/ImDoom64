@@ -1,6 +1,6 @@
 extern void nui_gtk_console_eval (string cmd);
 
-[GtkTemplate(ui="/com/github/Doom64EX/console-window.ui")]
+[GtkTemplate(ui="/com/github/ImDoom64/console-window.ui")]
 class ConsoleWindow : Gtk.Window {
 	[GtkChild]
 	private Gtk.TextBuffer text_buffer;

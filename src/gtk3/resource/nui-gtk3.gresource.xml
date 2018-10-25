@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gresources>
-    <gresource prefix="/com/github/Doom64EX">
+    <gresource prefix="/com/github/ImDoom64">
         <file>rom-dialog.ui</file>
         <file>console-window.ui</file>
-        <file alias="logo.png">../../../data/icons/256x256/doom64ex.png</file>
+        <file alias="logo.png">../../../data/icons/256x256/imdoom64.png</file>
     </gresource>
 </gresources>

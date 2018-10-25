@@ -72,7 +72,7 @@ void app::main(int argc, char **argv)
 
     // Data files have to be in the cwd on Windows for compatibility reasons.
 #ifndef _WIN32
-    auto data_dir = SDL_GetPrefPath("", "doom64ex");
+    auto data_dir = SDL_GetPrefPath("", "ImDoom64");
     if (data_dir) {
         _data_dir = data_dir;
         SDL_free(data_dir);
@@ -119,16 +119,16 @@ Optional<String> app::find_data_file(StringView name, StringView dir_hint)
 
 #if defined(__LINUX__) || defined(__OpenBSD__)
     const char *paths[] = {
-        "/usr/local/share/games/doom64ex/",
-        "/usr/local/share/doom64ex/",
+        "/usr/local/share/games/imdoom64/",
+        "/usr/local/share/imdoom64/",
         "/usr/local/share/doom/",
-        "/usr/share/games/doom64ex/",
-        "/usr/share/doom64ex/",
+        "/usr/share/games/imdoom64/",
+        "/usr/share/imdoom64/",
         "/usr/share/doom/",
-        "/opt/doom64ex/",
+        "/opt/imdoom64/",
 
         /* flatpak */
-        "/app/usr/share/doom64ex/"
+        "/app/imdoom64/"
     };
 
     for (auto p : paths) {

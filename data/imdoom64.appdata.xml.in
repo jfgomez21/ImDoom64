@@ -3,23 +3,23 @@
     <id>@program_name@.desktop</id>
     <metadata_license>CC0-1.0</metadata_license>
     <project_license>GPL-2.0+</project_license>
-    <name>Doom64EX</name>
+    <name>ImDoom 64</name>
     <summary>Recreation of Midway's Doom64 for modern operating systems</summary>
     <description>
         <p>
             Doom 64 is a Doom spin-off for the Nintendo 64.
         </p>
         <p>
-            Doom64EX is a faithful recreation of the original Nintendo 64 game using
+            ImDoom 64 is a faithful recreation of the original Nintendo 64 game using
             PC Doom's source code as the base.
         </p>
         <p>
-            Doom64EX requires the data files from the original game.
+            ImDoom 64 requires the data files from the original game.
         </p>
     </description>
 
-    <url type="homepage">https://github.com/svkaiser/Doom64EX</url>
-    <url type="bugtracker">https://github.com/svkaiser/Doom64EX/issues</url>
+    <url type="homepage">https://github.com/Doom64/ImDoom64</url>
+    <url type="bugtracker">https://github.com/Doom64/ImDoom64/issues</url>
 
     <content_rating type="oars-1.1">
         <content_attribute id="violence-cartoon">none</content_attribute>

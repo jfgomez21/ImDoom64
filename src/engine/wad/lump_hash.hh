@@ -1,5 +1,5 @@
-#ifndef DOOM64EX_LUMP_HASH_HH
-#define DOOM64EX_LUMP_HASH_HH
+#ifndef LUMP_HASH_HH
+#define LUMP_HASH_HH
 
 namespace imp {
   namespace wad {
@@ -36,4 +36,4 @@ namespace imp {
   }
 }
 
-#endif //DOOM64EX_LUMP_HASH_HH
+#endif //LUMP_HASH_HH

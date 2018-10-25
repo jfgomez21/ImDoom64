@@ -1022,7 +1022,7 @@ static dboolean Song_RegisterTracks(song_t* song) {
 // Allocate data for all midi songs
 //
 
-// Doom64EX expects audio to be loaded in this order since the sound indices are hardcoded in info.cc
+// ImDoom64 expects audio to be loaded in this order since the sound indices are hardcoded in info.cc
 static const std::array<StringView, 117> audio_lumps_ {{
         "NOSOUND", "SNDPUNCH", "SNDSPAWN", "SNDEXPLD", "SNDIMPCT", "SNDPSTOL", "SNDSHTGN", "SNDPLSMA", "SNDBFG",
             "SNDSAWUP", "SNDSWIDL", "SNDSAW1", "SNDSAW2", "SNDMISLE", "SNDBFGXP", "SNDPSTRT", "SNDPSTOP", "SNDDORUP",

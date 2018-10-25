@@ -1,8 +1,8 @@
-app-id: com.github.Doom64EX
+app-id: com.dotfloat.ImDoom64
 sdk: org.gnome.Sdk
 runtime: org.gnome.Platform
 runtime-version: 3.26
-command: com.github.Doom64EX
+command: com.dotfloat.ImDoom64
 
 finish-args:
   # OpenGL
@@ -68,16 +68,15 @@ modules:
       - /lib
 
   # Finally, build the actual project
-  - name: doom64ex
+  - name: imdoom64
     buildsystem: meson
     sources:
       - type: git
-        url: https://github.com/svkaiser/Doom64EX.git
-        branch: rom
+        url: https://github.com/Doom64/ImDoom64.git
 
     config-opts:
       - -Denable_gtk3=true
-      - -Dprogram_name=com.github.Doom64EX
+      - -Dprogram_name=com.dotfloat.ImDoom64
 
     cleanup:
       - /include

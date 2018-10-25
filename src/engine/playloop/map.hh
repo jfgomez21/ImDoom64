@@ -1,6 +1,6 @@
 // -*- mode: c++ -*-
-#ifndef __DOOM64EX_MAP__59976677
-#define __DOOM64EX_MAP__59976677
+#ifndef __MAP__59976677
+#define __MAP__59976677
 
 #include <prelude.hh>
 
@@ -16,4 +16,4 @@ void P_InitTextureHashTable(void);
 
 uint32 P_GetTextureHashKey(int hash);
 
-#endif //__DOOM64EX_MAP__59976677
+#endif //__MAP__59976677

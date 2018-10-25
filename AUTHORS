@@ -1,5 +1,5 @@
 This file is now the amalgamated list of authors, contributors and credits
-for Doom64 EX. Hopefully by keeping these all in one place, they will remain
+for ImDoom 64. Hopefully by keeping these all in one place, they will remain
 more accurate.
 
 Doom was originally written by id software; when playing with any id main
@@ -10,14 +10,14 @@ others to work on improving the game.
 In October 1999, id Software re-released the Doom source code under the
 GNU General Public License.
 
+Zohar Malamant
+Current maintainer and developer of ImDoom 64
+
 Samuel Villarreal <svkaiser@gmail.com>
-Doom64 EX Author
+Original Doom64 EX Author
 
 Paul Brook
 Author of the Doom3D source port in which Doom64 EX was originally based off of
-
-Zohar Malamant
-Additional programming, multi-platform support
 
 Cray Elliott
 Additional programming, multi-platform support

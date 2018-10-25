@@ -1,10 +1,10 @@
 ##------------------------------------------------------------------------------
 ##
-## Doom64EX CMake configuration
+## ImDoom64 CMake configuration
 ##
 ## LICENSE:
 ##
-## Copyright(C) 2016 Zohar Malamant
+## Copyright(C) 2016 - 2018 Zohar Malamant
 ##
 ## This program is free software; you can redistribute it and/or
 ## modify it under the terms of the GNU General Public License
@@ -23,7 +23,7 @@
 ##
 
 cmake_minimum_required(VERSION 2.8.12)
-project(Doom64EX C CXX)
+project(ImDoom64 C CXX)
 
 ##------------------------------------------------------------------------------
 ## Build Options
@@ -158,24 +158,24 @@ if(ENABLE_GTK3)
 endif(ENABLE_GTK3)
 
 ##------------------------------------------------------------------------------
-## doom64ex.pk3 target
+## imdoom64.pk3 target
 ##
 
 # CMake 3.3.2 is the earliest version with support for --format=zip
 if(CMAKE_VERSION VERSION_LESS 3.3.2)
-  message(WARNING "Your CMake version is fairly old, so you'll need to generate the doom64ex.pk3 file manually. See README.md for more information.")
+  message(WARNING "Your CMake version is fairly old, so you'll need to generate the imdoom64.pk3 file manually. See README.md for more information.")
 else()
-  # Build doom64ex.pk3
+  # Build imdoom64.pk3
   add_custom_target(pk3 ALL
-    WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/distrib/doom64ex.pk3"
-    COMMAND "${CMAKE_COMMAND}" -E tar "cfv" "${CMAKE_BINARY_DIR}/doom64ex.pk3" --format=zip "--files-from=${CMAKE_SOURCE_DIR}/distrib/doom64ex_pk3.txt")
+    WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/data/imdoom64.pk3"
+    COMMAND "${CMAKE_COMMAND}" -E tar "cfv" "${CMAKE_BINARY_DIR}/imdoom64.pk3" --format=zip "--files-from=${CMAKE_SOURCE_DIR}/distrib/imdoom64_pk3.txt")
 
-  # Install doom64ex.pk3
+  # Install imdoom64.pk3
   if (NOT WIN32)
     if (APPLE)
-      install(FILES "${CMAKE_BINARY_DIR}/doom64ex.pk3" DESTINATION "$ENV{HOME}/Library/Application Support/doom64ex")
+      install(FILES "${CMAKE_BINARY_DIR}/imdoom64.pk3" DESTINATION "$ENV{HOME}/Library/Application Support/imdoom64")
     else ()
-      install(FILES "${CMAKE_BINARY_DIR}/doom64ex.pk3" DESTINATION share/games/doom64ex)
+      install(FILES "${CMAKE_BINARY_DIR}/imdoom64.pk3" DESTINATION share/games/imdoom64)
     endif ()
   endif ()
 endif()
