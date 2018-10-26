@@ -29,7 +29,9 @@ before_install:
   - pip3 install meson
 
   # Install ninja
-  - cd $HOME/.local/bin
+  - mkdir -p $HOME/bin
+  - cd $HOME/bin
+  - export PATH=$HOME/bin:$PATH
   - wget https://github.com/ninja-build/ninja/releases/download/v1.8.2/ninja-linux.zip
   - unzip ninja-linux.zip
   - rm ninja-linux.zip
