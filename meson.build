@@ -78,11 +78,7 @@ if get_option('enable_glbinding')
 endif
 
 # Fluidsynth
-fluid_dep = dependency('fluidsynth', required : false)
-
-if not fluid_dep.found()
-  fluid_dep = cpp.find_library('fluidsynth')
-endif
+fluid_dep = dependency('fluidsynth', fallback : ['fluidsynth-lite', 'fluidsynth_dep'])
 
 ##------------------------------------------------------------------------------
 ## Target: imdoom64.pk3 (data)
