@@ -22,6 +22,9 @@ matrix:
             - libsdl2-net-dev
 
 before_install:
+  # Set python version
+  - pyenv global 3.6
+
   # Install mesonbuild
   - pip3 install meson
 
