@@ -1,60 +1,49 @@
 language: c++
 dist: trusty
-sudo: required 
 
 matrix:
   include:
     - os: linux
       compiler: gcc
-      env: GCC_VERSION=5
+      env:
+        - CC=gcc-8
+        - CXX=g++-8
       addons:
         apt:
           sources:
             - ubuntu-toolchain-r-test
             - kubuntu-backports
           packages:
-            - gcc-5
-            - g++-5
-            - cmake
+            - gcc-8
+            - g++-8
+            - python3.5
+            - python3-pip
+            - ninja-build
             - libpng-dev
-            - libgtest-dev
-            - libsdl2-net-dev
-    - os: linux
-      compiler: clang
-      env: CLANG_VERSION=3.5
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-            - llvm-toolchain-precise-3.5
-            - kubuntu-backports
-          packages:
-            - clang-3.5
-            - cmake
-            - libstdc++-5-dev
-            - libpng-dev
-            - libgtest-dev
             - libsdl2-net-dev
 
 before_install:
-  # Set correct GCC or Clang versions.
-  - if [ -n "$GCC_VERSION" ]; then export CC="gcc-${GCC_VERSION}" CXX="g++-${GCC_VERSION}"; fi
-  - if [ -n "$CLANG_VERSION" ]; then export CC="clang-${CLANG_VERSION}" CXX="clang++-${CLANG_VERSION}"; fi
+  # Install mesonbuild
+  - pip3 install meson
+
+  # Install ninja
+  - cd $HOME/.local/bin
+  - wget https://github.com/ninja-build/ninja/releases/download/v1.8.2/ninja-linux.zip
+  - unzip ninja-linux.zip
+  - rm ninja-linux.zip
+  - cd -
+
+  # Print settings
   - which $CC
   - which $CXX
+  - $CC --version
+  - $CXX --version
+  - meson --version
+  - ninja --version
 
-install:
-  # Compile google test library
-  - cd /usr/src/gtest
-  - sudo cmake -Dgtest_disable_pthreads=ON .
-  - sudo cmake --build .
-  - sudo mv libg* /usr/local/lib/
-  - cd -
 
 script:
   # Compile our thing!
-  - mkdir build
-  - cd build
-  - cmake -DTESTING=ON -DCMAKE_BUILD_TYPE=Release ..
-  - cmake --build .
-  - ctest
+  - mkdir build && cd build
+  - meson --default-library=static --buildtype=release ..
+  - ninja
