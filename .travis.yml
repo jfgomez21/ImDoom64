@@ -23,6 +23,10 @@ matrix:
             - libsdl2-net-dev
 
 before_install:
+  # Set python3.5 as default
+  - alias python=python3.5
+  - python --version
+
   # Install mesonbuild
   - pip3 install meson
 
@@ -40,6 +44,7 @@ before_install:
   - $CXX --version
   - meson --version
   - ninja --version
+
 
 script:
   # Compile our thing!
