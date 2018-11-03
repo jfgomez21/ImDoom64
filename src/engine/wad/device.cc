@@ -36,7 +36,7 @@ namespace {
 
       std::pair<ILump*, size_t> find(StringView name)
       {
-          auto it = m_index_by_name.find(name.to_string());
+          auto it = m_index_by_name.find(std::string{name});
           if (it == m_index_by_name.end())
               return { nullptr, 0 };
           return { m_lumps[it->second].get(), it->second };

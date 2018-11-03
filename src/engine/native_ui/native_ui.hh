@@ -23,6 +23,7 @@
 #ifndef __IMP_NATIVEUI__92059425
 #define __IMP_NATIVEUI__92059425
 
+#include <filesystem>
 #include "prelude.hh"
 
 namespace imp {
@@ -43,7 +44,7 @@ namespace imp {
        *
        * \returns a
        */
-      virtual Optional<String> rom_select();
+      virtual Optional<std::filesystem::path> rom_select();
   };
 
   extern UniquePtr<NativeUI> g_native_ui;

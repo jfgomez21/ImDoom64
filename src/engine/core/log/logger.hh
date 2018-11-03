@@ -96,7 +96,7 @@ namespace imp {
          */
         template <class... Args>
         void operator()(StringView fmt, Args&&... args)
-        { m_println(fmt::format(fmt.to_string(), std::forward<Args>(args)...)); }
+        { m_println(fmt::format(std::string{fmt}, std::forward<Args>(args)...)); }
 
         /**
          * Legacy C-style formatting. Used by \def I_Printf and \def I_Error

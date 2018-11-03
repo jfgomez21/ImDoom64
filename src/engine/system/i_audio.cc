@@ -41,8 +41,9 @@
 #include "z_zone.h"
 #include "i_swap.h"
 #include "con_console.h"    // for cvars
-#include <platform/app.hh>
-#include <wad.hh>
+#include "platform/app.hh"
+#include "wad.hh"
+#include "core/cvar.hh"
 
 #include "SDL.h"
 

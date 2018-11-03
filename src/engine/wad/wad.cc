@@ -13,11 +13,12 @@
 #endif
 
 #include <platform/app.hh>
+#include "core/args.hh"
 #include "native_ui/native_ui.hh"
 #include "wad.hh"
 #include "wad_loaders.hh"
 
-extern String data_dir;
+extern std::filesystem::path data_dir;
 
 void wad::init()
 {
@@ -35,42 +36,15 @@ void wad::init()
             iwad_loaded = wad::add_device(*path);
         }
 
-#ifdef _WIN32
         if (!iwad_loaded) {
-            char cd[MAX_PATH];
-            GetCurrentDirectory(MAX_PATH, cd);
+            auto path = g_native_ui->rom_select();
 
-            auto str = g_native_ui->rom_select();
-
-            SetCurrentDirectory(cd);
-
-            if (!str) {
-                std::exit(0);
-            }
-
-            CopyFile(str->c_str(), "doom64.rom", FALSE);
-        }
-#elif __linux__
-        if (!iwad_loaded) {
-            auto str = g_native_ui->rom_select();
-
-            if (!str) {
+            if (!path) {
                 log::fatal("Couldn't find 'doom64.rom'");
             }
 
-            auto path = fmt::format("{}/doom64.rom", data_dir);
-            int srcfd = ::open(str->c_str(), O_RDONLY, 0);
-            int dstfd = ::open(path.c_str(), O_WRONLY | O_CREAT, 0644);
-
-            struct stat srcstat;
-            fstat(srcfd, &srcstat);
-
-            sendfile(dstfd, srcfd, 0, srcstat.st_size);
-
-            close(srcfd);
-            close(dstfd);
+            std::filesystem::copy_file(*path, data_dir / "doom64.rom"sv);
         }
-#endif
     }
 
     // Find and add 'imdoom64.pk3'
@@ -78,6 +52,22 @@ void wad::init()
         wad::add_device(*engine_data_path);
     } else {
         log::fatal("Couldn't find 'imdoom64.pk3'");
+    }
+
+    // Add any additional WADs
+    bool add {};
+    for (const auto& tok : args::all_args()) {
+        if (add && tok[0] != '-') {
+            log::info("Adding WAD '{}'", tok);
+            iwad_loaded = wad::add_device(tok);
+            if (!iwad_loaded) {
+                log::fatal("Failed inserting '{}'", tok);
+            }
+        } else if (add && tok[0] == '-') {
+            break;
+        } else if (tok == "-file") {
+            add = true;
+        }
     }
 
     wad::merge();

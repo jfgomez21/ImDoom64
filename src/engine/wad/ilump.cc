@@ -39,7 +39,7 @@ char* ILump::read_bytes_ccompat(size_t *size_out = nullptr)
 Optional<Image> ILump::read_image()
 {
     auto is = stream();
-    return make_optional<Image>(*is);
+    return std::make_optional<Image>(*is);
 }
 
 Optional<Palette> ILump::read_palette()

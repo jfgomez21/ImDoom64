@@ -260,7 +260,7 @@ public:
         for (size_t i {}; i < sizeof(snd_names_) / sizeof(*snd_names_); ++i) {
             auto& name = snd_names_[i];
 
-            auto lump_info = Info { name.to_string(), Section::sounds, 0 };
+            auto lump_info = Info { std::string{name}, Section::sounds, 0 };
             auto lump_ptr = std::make_unique<SoundLump>(*this, lump_info, i);
 
             lumps.emplace_back(std::move(lump_ptr));
@@ -334,7 +334,7 @@ UniquePtr<std::istream> wad::rom::SoundLump::stream()
     return std::make_unique<std::istringstream>(get_midi(track_));
 }
 
-IDevicePtr wad::rom_loader(StringView path)
+IDevicePtr wad::rom_loader(const std::filesystem::path& path)
 {
     sys::N64Rom rom(path);
     if (!rom.is_open())

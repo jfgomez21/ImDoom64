@@ -2,7 +2,6 @@
 #define __STORE_ITERATOR__99202760
 
 #include <utility/radix_tree.hh>
-#include <boost/compressed_pair.hpp>
 
 #include "ref.hh"
 #include "predicates.hh"
@@ -71,18 +70,18 @@ namespace imp::cvar {
           bool good() const
           { return iter != end; }
       };
-      boost::compressed_pair<iter_pair, predicate> m_iter;
+      std::pair<iter_pair, predicate> m_iter;
 
       Ref m_ref() const
-      { return m_iter.first().iter->second.lock(); }
+      { return m_iter.first.iter->second.lock(); }
 
       void m_next()
       {
-          m_iter.first().next();
-          while (m_iter.first().good()) {
-              if (m_iter.second()(m_iter.first().iter->first, m_iter.first().iter->second))
+          m_iter.first.next();
+          while (m_iter.first.good()) {
+              if (m_iter.second(m_iter.first.iter->first, m_iter.first.iter->second))
                   break;
-              m_iter.first().next();
+              m_iter.first.next();
           }
       }
 
@@ -128,10 +127,10 @@ namespace imp::cvar {
       }
 
       bool operator==(const StoreIterator& other) const
-      { return m_iter.first().iter == other.m_iter.first().iter; }
+      { return m_iter.first.iter == other.m_iter.first.iter; }
 
       bool operator!=(const StoreIterator& other) const
-      { return m_iter.first().iter != other.m_iter.first().iter; }
+      { return m_iter.first.iter != other.m_iter.first.iter; }
   };
 }
 

@@ -3,11 +3,76 @@
 
 #include <prelude.hh>
 #include <functional>
+#include <charconv>
+#include <string>
 
-#include <boost/variant.hpp>
-#include <boost/lexical_cast.hpp>
+#include <variant>
 
 #include "flags.hh"
+
+namespace imp::cvar::detail {
+  struct cast_to_string {
+      bool operator()(std::string& val, std::string_view new_val) const
+      {
+          val = new_val;
+          return true;
+      }
+
+      bool operator()(bool& val, std::string_view new_val) const
+      {
+          if (new_val == "true" || new_val == "yes" || new_val == "on") {
+              val = true;
+              return true;
+          }
+
+          if (new_val == "false" || new_val == "no" || new_val == "off") {
+              val = false;
+              return  true;
+          }
+
+          /* fallback to int conversion */
+          int intval {};
+          if ((*this)(intval, new_val)) {
+              val = (intval != 0);
+              return true;
+          }
+
+          return false;
+      }
+
+      template <class T>
+      bool operator()(T& val, std::string_view new_val) const
+      {
+          /* Will enable in the future when better C++17 support is a thing */
+#if 0
+          auto conv_res = std::from_chars(new_val.data(), new_val.data() + new_val.size(), val);
+
+          /* check for conversion errors */
+          if (conv_res.ec != std::errc{}) {
+              /* Don't change value and ignore */
+              DEBUG("Can't cast '{}' to {}", new_val, typeid(T).name());
+              return false;
+          }
+
+          return true;
+#endif
+
+          try {
+              if constexpr (std::is_same_v<T, int>) {
+                  val = std::stoi(std::string {new_val});
+              } else if constexpr (std::is_same_v<T, float>) {
+                  val = std::stof(std::string {new_val});
+              }
+
+              return true;
+          } catch (std::logic_error& e) {
+              /* Don't change value and ignore */
+              DEBUG("Can't cast '{}' to {}", new_val, typeid(T).name());
+              return false;
+          }
+      }
+  };
+}
 
 namespace imp::cvar {
   template <class T>
@@ -19,7 +84,7 @@ namespace imp::cvar {
   template <class T>
   using VTuple = std::tuple<T, T, OptCallback<T>>;
 
-  using Variant = boost::variant<
+  using Variant = std::variant<
       VTuple<bool>,
       VTuple<int>,
       VTuple<float>,
@@ -38,11 +103,11 @@ namespace imp::cvar {
 
       template <class T>
       VTuple<T>& m_tuple()
-      { return boost::get<VTuple<T>>(m_data); }
+      { return std::get<VTuple<T>>(m_data); }
 
       template <class T>
       const VTuple<T>& m_tuple() const
-      { return boost::get<VTuple<T>>(m_data); }
+      { return std::get<VTuple<T>>(m_data); }
 
   public:
       explicit Data(int def):
@@ -76,13 +141,13 @@ namespace imp::cvar {
       { return m_name; }
 
       void set_name(StringView name)
-      { m_name = name.to_string(); }
+      { m_name = name; }
 
       StringView desc() const
       { return m_desc; }
 
       void set_desc(StringView desc)
-      { m_desc = desc.to_string(); }
+      { m_desc = desc; }
 
       void set_valid(bool valid)
       { m_valid = valid; }
@@ -104,41 +169,45 @@ namespace imp::cvar {
 
       void set_to_default()
       {
-          boost::apply_visitor([](auto& var) {
+          std::visit([](auto& var) {
               std::get<0>(var) = std::get<1>(var);
           }, m_data);
       }
 
       void set_value(StringView new_value)
       {
-          boost::apply_visitor([&new_value](auto& var) {
-              using type = std::decay_t<decltype(std::get<0>(var))>;
-              try {
-                  std::get<0>(var) = boost::lexical_cast<type>(new_value);
-              } catch (boost::bad_lexical_cast&) {
-                  /* Don't change value and ignore */
-                  DEBUG("Can't cast '{}' to {}", new_value, boost::typeindex::type_id<type>().pretty_name());
-              }
+          std::visit([&new_value](auto& var) {
+              detail::cast_to_string {}(std::get<0>(var), new_value);
           }, m_data);
       }
 
       String get_value() const
       {
-          return boost::apply_visitor([](const auto& var) {
-              return boost::lexical_cast<String>(std::get<0>(var));
+          return std::visit([](const auto& var) {
+              using type = std::decay_t<decltype(std::get<0>(var))>;
+              if constexpr (std::is_same_v<type, std::string>) {
+                  return std::get<0>(var);
+              } else {
+                  return std::to_string(std::get<0>(var));
+              }
           }, m_data);
       }
 
       String get_default_string() const
       {
-          return boost::apply_visitor([](const auto& var) {
-              return boost::lexical_cast<String>(std::get<1>(var));
+          return std::visit([](const auto& var) {
+              using type = std::decay_t<decltype(std::get<1>(var))>;
+              if constexpr (std::is_same_v<type, std::string>) {
+                  return std::get<1>(var);
+              } else {
+                  return std::to_string(std::get<1>(var));
+              }
           }, m_data);
       }
 
       void update() const
       {
-          boost::apply_visitor([](const auto &var) {
+          std::visit([](const auto &var) {
               auto ocb = std::get<2>(var);
               if (ocb) {
                   (*ocb)(std::get<0>(var));

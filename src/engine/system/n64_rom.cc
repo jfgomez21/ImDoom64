@@ -1,14 +1,34 @@
 
 #include <fstream>
-#include <platform/app.hh>
-#include <prelude.hh>
-#include <boost/algorithm/string.hpp>
+#include <filesystem>
+#include "prelude.hh"
+#include "platform/app.hh"
 
 #include "n64_rom.hh"
 
 String n64_rom_text = "WADGEN";
 
 namespace {
+  template <class CharT>
+  struct iequal_to {
+      bool operator()(const CharT& a, const CharT& b) const
+      { return std::toupper(a) == std::toupper(b); }
+  };
+
+  bool iequals(std::string_view a, std::string_view b) {
+      if (a.size() != b.size())
+          return false;
+
+      iequal_to<char> f {};
+      for (size_t i {}; i < a.size(); ++i) {
+          if (!f(a[i], b[i])) {
+              return false;
+          }
+      }
+
+      return true;
+  }
+
   /**
    * The way it seems to be laid out
    */
@@ -97,7 +117,7 @@ std::istringstream sys::N64Rom::m_load(const sys::N64Loc &loc)
     return iss;
 }
 
-bool sys::N64Rom::open(StringView path)
+bool sys::N64Rom::open(const std::filesystem::path& path)
 {
     /* Used to detect endianess. Padded to 20 characters. */
     constexpr auto norm_name  = "Doom64              "_sv;
@@ -107,18 +127,18 @@ bool sys::N64Rom::open(StringView path)
 
     Header header;
 
-    m_file.open(path.to_string(), std::ios::binary);
+    m_file.open(path, std::ios::binary);
     m_file.read(reinterpret_cast<char*>(&header), sizeof(header));
 
     char country {};
     char version {};
-    if (boost::iequals(norm_name, header.name) ||
-        boost::iequals(norm_name2, header.name)) {
+    if (iequals(norm_name, header.name) ||
+        iequals(norm_name2, header.name)) {
         country = header.country;
         version = header.version;
         m_swapped = false;
-    } else if (boost::iequals(swap_name, header.name) ||
-               boost::iequals(swap_name2, header.name)) {
+    } else if (iequals(swap_name, header.name) ||
+               iequals(swap_name2, header.name)) {
         country = header.version;
         version = header.country;
         m_swapped = true;
@@ -162,7 +182,7 @@ bool sys::N64Rom::open(StringView path)
         m_file.close();
         return false;
     } else {
-        m_version = m_rom_version->name.to_string();
+        m_version = m_rom_version->name;
         n64_rom_text = fmt::format("{} rom", m_version);
     }
 

@@ -108,8 +108,8 @@ namespace imp {
           width_(width),
           height_(height),
           pitch_(detail::image_pitch(width, align, info_->width)),
-          align_(align),
-          data_(make_unique<char[]>(size())) {}
+          data_(make_unique<char[]>(size())),
+          align_(align) {}
 
       template <class PixT, class PalT>
       Image(BasicImage<PixT, PalT>&& other):

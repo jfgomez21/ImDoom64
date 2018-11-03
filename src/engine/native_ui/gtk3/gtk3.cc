@@ -15,7 +15,7 @@ namespace {
 
       void console_add_line(StringView) override;
 
-      Optional<String> rom_select() override;
+      Optional<std::filesystem::path> rom_select() override;
   };
 }
 
@@ -31,7 +31,7 @@ void nui_gtk_console_add_line(const char *line);
  */
 void nui_gtk_rom_open(char *path)
 {
-    StringView spath = path;
+    std::filesystem::path spath { path };
 
     sys::N64Rom rom { spath };
 
@@ -95,7 +95,7 @@ void Gtk3UI::console_add_line(StringView line)
     nui_gtk_console_add_line(str.c_str());
 }
 
-Optional<String> Gtk3UI::rom_select()
+Optional<std::filesystem::path> Gtk3UI::rom_select()
 {
     nui_gtk_rom_dialog_init();
 
@@ -105,6 +105,7 @@ Optional<String> Gtk3UI::rom_select()
 //
 // imp_init_gtk3_ui
 //
+[[maybe_unused]]
 void imp_init_gtk3_ui()
 {
     g_native_ui = std::make_unique<Gtk3UI>();

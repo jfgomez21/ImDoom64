@@ -69,6 +69,8 @@ public:
     iterator end();
 
     std::pair<iterator, bool> insert(const value_type &val);
+    template <typename V>
+    std::pair<iterator, bool> emplace(const K& key, V&& val);
     bool erase(const K &key);
     void erase(iterator it);
     void prefix_match(const K &key, std::vector<iterator> &vec);
@@ -465,6 +467,38 @@ std::pair<typename radix_tree<K, T, Compare>::iterator, bool> radix_tree<K, T, C
             return std::pair<iterator, bool>(append(node, val), true);
         } else {
             return std::pair<iterator, bool>(prepend(node, val), true);
+        }
+    }
+}
+
+template <typename K, typename T, typename Compare>
+template <typename V>
+std::pair<typename radix_tree<K, T, Compare>::iterator, bool> radix_tree<K, T, Compare>::emplace(const K& key, V&& val)
+{
+    if (m_root == NULL) {
+        K nul = radix_substr(key, 0, 0);
+
+        m_root = new radix_tree_node<K, T, Compare>(m_predicate);
+        m_root->m_key = nul;
+    }
+
+
+    radix_tree_node<K, T, Compare> *node = find_node(key, m_root, 0);
+
+    if (node->m_is_leaf) {
+        return std::pair<iterator, bool>(node, false);
+    } else if (node == m_root) {
+        m_size++;
+        return std::pair<iterator, bool>(append(m_root, std::pair<K, T>{key, std::forward<V>(val)}), true);
+    } else {
+        m_size++;
+        int len     = radix_length(node->m_key);
+        K   key_sub = radix_substr(key, node->m_depth, len);
+
+        if (key_sub == node->m_key) {
+            return std::pair<iterator, bool>(append(node, std::pair<K, T>{key, std::forward<V>(val)}), true);
+        } else {
+            return std::pair<iterator, bool>(prepend(node, std::pair<K, T>{key, std::forward<V>(val)}), true);
         }
     }
 }

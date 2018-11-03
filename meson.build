@@ -28,7 +28,7 @@ project(
   meson_version : '>=0.46.0',
   license : 'GPLv2',
   default_options : [
-    'cpp_std=c++14'
+    'cpp_std=c++17'
   ]
 )
 
@@ -65,7 +65,7 @@ zlib_dep = dependency('zlib')
 png_dep = dependency('libpng')
 
 # fmtlib
-fmt_dep = dependency('fmt', version : ['>=5', '<6'], fallback : ['fmt', 'fmt_dep'])
+fmt_dep = dependency('fmt', version : ['>=5.2.1'], fallback : ['fmt', 'fmt_dep'])
 
 # GLBinding
 glbinding_dep = []
@@ -85,8 +85,17 @@ fluid_dep = dependency('fluidsynth', fallback : ['fluidsynth-lite', 'fluidsynth_
 ##
 zip_prog = find_program('zip', required : false, native : true)
 if zip_prog.found()
-  res = run_command('./script/meson_build_pk3.sh')
-  message(res.stdout())
+  zip_src = files(
+    'data/imdoom64.pk3/animdefs.txt',
+    'data/imdoom64.pk3/mapinfo.txt',
+    'data/imdoom64.pk3/palplay3.act',
+    'data/imdoom64.pk3/skydefs.txt',
+    'data/imdoom64.pk3/graphics/buttons.png',
+    'data/imdoom64.pk3/graphics/confont.png',
+    'data/imdoom64.pk3/graphics/crshairs.png',
+    'data/imdoom64.pk3/graphics/cursor.png',
+    'data/imdoom64.pk3/graphics/fancred.png',
+  )
 
   if target_machine.system() == 'linux'
     install_dir = 'usr/share/imdoom64'
@@ -96,14 +105,14 @@ if zip_prog.found()
     error('Unsupported target OS!')
   endif
 
-  if res.returncode() == 0
-    install_data(
-      join_paths(meson.current_build_dir(), 'imdoom64.pk3'),
-      install_dir : install_dir
-    )
-  else
-    warning('Could not create imdoom64.pk3. The game will not run without this file!')
-  endif
+  pk3_target = custom_target(
+    'pk3',
+    output : 'imdoom64.pk3',
+    input : zip_src,
+    command : [join_paths(meson.current_source_dir(), 'script/meson_build_pk3.sh'), meson.current_source_dir(), meson.current_build_dir()],
+    install : true,
+    install_dir : install_dir,
+    build_by_default : true)
 else
   warning('`zip` program not found. Can\'t generate `imdoom64.pk3`')
 endif

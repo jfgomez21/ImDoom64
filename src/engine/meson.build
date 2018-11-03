@@ -26,17 +26,17 @@
 ## Config header
 ##
 conf_data = configuration_data()
-conf_data.set('PROJECT_NAME', 'ImDoom64')
-conf_data.set('VERSION', '3.0.0-git')
-conf_data.set('VERSION_GIT', '3.0.0-git')
-conf_data.set('VERSION_FULL', '3.0.0-git')
+conf_data.set('PROJECT_NAME', 'ImDoom 64')
+conf_data.set('VERSION', '0.1.0-git')
+conf_data.set('VERSION_GIT', '0.1.0-git')
+conf_data.set('VERSION_FULL', '0.1.0-git')
 conf_data.set10('USE_NATIVE_UI_GTK3', enable_gtk3)
 
 configure_file(
   input : '../config.hh.in',
   output : 'config.hh',
   configuration : conf_data,
-  format : 'cmake'
+  format : 'cmake@'
 )
 
 ##------------------------------------------------------------------------------
@@ -58,7 +58,10 @@ engine_dep = [
   fmt_dep,
 
   # Additional project dependencies
-  nui_gtk3_dep
+  nui_gtk3_dep,
+
+  # GCC requires libstdc++fs for the <filesystem> header to work
+  cpp.find_library('stdc++fs', required : false)
 ]
 
 ##------------------------------------------------------------------------------
@@ -84,23 +87,45 @@ engine_src = files(
 
   'app.cc',
   'globals.cc',
+  'prelude.hh',
+  'wad.hh',
 
   # automap
   'automap/am_draw.cc',
+  'automap/am_draw.h',
   'automap/am_map.cc',
+  'automap/am_map.h',
 
   # common
+  'common/doomdata.h',
+  'common/doomdef.h',
+  'common/doomstat.h',
+  'common/doomtype.h',
   'common/info.cc',
+  'common/info.h',
   'common/md5.cc',
+  'common/md5.h',
+  'common/t_bsp.h',
   'common/tables.cc',
-
-  # core
-  'core/log/log.cc',
-  'core/cvar/store.cc',
-  'core/args.cc',
+  'common/tables.h',
 
   # console
   'console/con_console.cc',
+  'console/con_console.h',
+
+  # core/log
+  'core/log/globals.hh',
+  'core/log/log.cc',
+  'core/log/logger.hh',
+  'core/log/null_logger.hh',
+  'core/log/style.hh',
+
+  # core/cvar
+  'core/cvar/store.cc',
+  'core/cvar/flag_desc.cc',
+
+  # core
+  'core/args.cc',
 
   # doom_main
   'doom_main/d_devstat.cc',

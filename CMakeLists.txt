@@ -121,9 +121,6 @@ if (NOT USE_CONAN)
     find_package(FluidSynth REQUIRED)
   endif()
 
-  # Boost
-  find_package(Boost REQUIRED)
-
   # fmt
   find_package(fmt REQUIRED)
 

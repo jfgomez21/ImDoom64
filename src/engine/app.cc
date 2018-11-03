@@ -3,6 +3,7 @@
 #include <platform/app.hh>
 #include <sys/stat.h>
 #include <clocale>
+#include <filesystem>
 
 #include <cxxabi.h>
 
@@ -40,7 +41,7 @@ int myargc{};
 
 char **myargv{};
 
-String data_dir { "./" };
+std::filesystem::path data_dir { "./" };
 
 namespace {
   auto &_gparams()
@@ -52,7 +53,7 @@ namespace {
   auto &_params = _gparams();
 
   String _base_dir { "./" };
-  String& _data_dir = data_dir;
+  std::filesystem::path& _data_dir = data_dir;
   StringView _program;
 }
 
@@ -109,11 +110,13 @@ Optional<String> app::find_data_file(StringView name, StringView dir_hint)
             return path;
     }
 
-    path = _base_dir + name.to_string();
+    path = _base_dir;
+    path += name;
     if (app::file_exists(path))
         return path;
 
-    path = _data_dir + name.to_string();
+    path = _data_dir;
+    path += name;
     if (app::file_exists(path))
         return path;
 
@@ -144,23 +147,6 @@ Optional<String> app::find_data_file(StringView name, StringView dir_hint)
 StringView app::program()
 {
     return _program;
-}
-
-bool app::have_param(StringView name)
-{
-    return _params.count(name) == 1;
-}
-
-const app::Param *app::param(StringView name)
-{
-    auto it = _params.find(name);
-    return it != _params.end() ? it->second : nullptr;
-}
-
-app::Param::Param(StringView name, app::Param::Arity arity) :
-    arity_(arity)
-{
-    _gparams()[name] = this;
 }
 
 int SDL_main(int argc, char **argv)

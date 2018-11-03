@@ -581,7 +581,7 @@ void GL_Init(void) {
     dglShadeModel(GL_SMOOTH);
     dglHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
     dglDepthFunc(GL_LEQUAL);
-    dglAlphaFunc(GL_GEQUAL, ALPHACLEARGLOBAL);
+    dglAlphaFunc(GL_GEQUAL, 0.1f);
     dglBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     dglFogi(GL_FOG_MODE, GL_LINEAR);
     dglHint(GL_FOG_HINT, GL_NICEST);

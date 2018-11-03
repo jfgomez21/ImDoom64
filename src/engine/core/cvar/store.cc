@@ -59,7 +59,7 @@ void cvar::Store::p_add(std::shared_ptr<Data> data, StringView name, StringView 
 
     auto it = m_vars.find(sname);
     if (it != m_vars.end()) {
-        throw cvar::var_already_exists(name.to_string());
+        throw cvar::var_already_exists(std::string {name});
     }
 
     data->set_name(name);
@@ -109,7 +109,7 @@ void cvar::Store::user_value(StringView name, StringView value)
             return;
     }
 
-    m_user_values.insert({s_normalize(name), value.to_string() });
+    m_user_values.emplace(s_normalize(name), value);
 }
 
 //
@@ -154,7 +154,7 @@ namespace imp {
     namespace internal {
       template <>
       Optional<IntRef> find<int>(StringView name)
-      { return g_store->find_type<int>(name.to_string()); }
+      { return g_store->find_type<int>(name); }
     }
   }
 }

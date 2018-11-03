@@ -2,12 +2,13 @@
 #define WAD_LOADERS_HH
 
 #include "idevice.hh"
+#include <filesystem>
 
 namespace imp {
   namespace wad {
-    IDevicePtr zip_loader(StringView);
-    IDevicePtr doom_loader(StringView);
-    IDevicePtr rom_loader(StringView);
+    IDevicePtr zip_loader(const std::filesystem::path&);
+    IDevicePtr doom_loader(const std::filesystem::path&);
+    IDevicePtr rom_loader(const std::filesystem::path&);
   }
 }
 

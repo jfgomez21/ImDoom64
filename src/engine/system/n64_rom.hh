@@ -3,6 +3,7 @@
 
 #include <sstream>
 #include <fstream>
+#include <filesystem>
 #include "prelude.hh"
 
 namespace imp {
@@ -40,13 +41,13 @@ namespace imp {
          * Opens path for reading as a ROM.
          * @param path System path to ROM
          */
-        explicit N64Rom(StringView path)
+        explicit N64Rom(const std::filesystem::path& path)
         { open(path); }
 
         N64Rom& operator=(const N64Rom&) = delete;
         N64Rom& operator=(N64Rom&&) = default;
 
-        bool open(StringView path);
+        bool open(const std::filesystem::path& path);
 
         bool is_open() const
         { return m_file.is_open(); }

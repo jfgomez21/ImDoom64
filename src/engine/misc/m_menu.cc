@@ -2593,7 +2593,7 @@ enum {
     xgp_default,
     xgp_return,
     xgp_end
-} xgp_e;
+};
 
 menuitem_t XGamePadMenu[]= {
     {3,"Stick Sensitivity",M_XGamePadChoice,'s'},

@@ -44,7 +44,7 @@ namespace {
 
   void s_fatal(StringView message)
   {
-      g_native_ui->error(message.to_string());
+      g_native_ui->error(std::string {message});
       std::exit(0);
   }
 
@@ -72,7 +72,9 @@ namespace {
 
   void s_write_ansi(std::ostream& s, StringView message, StringView style)
   {
-      auto prefix = style.to_string() + s_timestamp() + s_ansi_reset.to_string();
+      std::string prefix { style };
+      prefix += s_timestamp();
+      prefix += s_ansi_reset;
 
       s_each_line(message, [&](StringView msg) {
           s.write(prefix.data(), prefix.size());
@@ -85,7 +87,8 @@ namespace {
 
   void s_write(std::ostream& s, StringView message, StringView style)
   {
-      auto prefix = style.to_string() + s_timestamp();
+      std::string prefix { style };
+      prefix += s_timestamp();
 
       s_each_line(message, [&](StringView msg) {
           s.write(prefix.data(), prefix.size());

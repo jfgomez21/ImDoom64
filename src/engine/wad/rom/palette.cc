@@ -56,5 +56,5 @@ Optional<Palette> wad::rom::PaletteLump::read_palette()
     auto s = p_stream();
     s.ignore(8);
     auto pal = wad::rom::read_n64palette(s, 256);
-    return boost::make_optional<Palette>(std::move(pal));
+    return std::make_optional<Palette>(std::move(pal));
 }

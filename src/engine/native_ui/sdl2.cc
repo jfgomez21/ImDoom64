@@ -29,7 +29,7 @@ void NativeUI::error(const std::string &line)
     SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "ImDoom 64 fatal error", line.c_str(), nullptr);
 }
 
-Optional<String> NativeUI::rom_select()
+Optional<std::filesystem::path> NativeUI::rom_select()
 {
     return nullopt;
 }

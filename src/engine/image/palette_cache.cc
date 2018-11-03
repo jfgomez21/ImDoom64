@@ -11,7 +11,7 @@ struct mutable_pair {
     mutable T2 second;
 };
 
-template <class Key, class T, class Hash = boost::hash<Key>, class KeyEq = std::equal_to<>>
+template <class Key, class T, class Hash = std::hash<Key>, class KeyEq = std::equal_to<>>
 using HashMap = std::unordered_map<Key, T, Hash, KeyEq>;
 
 namespace {
@@ -34,7 +34,7 @@ namespace {
 
 Palette cache::palette(StringView name)
 {
-    auto sname = name.to_string();
+    std::string sname { name };
     auto it = palettes_.find(sname);
     if (it != palettes_.cend())
         return it->second;

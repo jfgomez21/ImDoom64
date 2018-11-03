@@ -1,5 +1,6 @@
 #include <fstream>
 #include <sstream>
+#include <filesystem>
 #include "../idevice.hh"
 #include "../wad_loaders.hh"
 
@@ -64,8 +65,8 @@ namespace {
       std::ifstream stream_;
 
   public:
-      DoomDevice(StringView path):
-          stream_(path.to_string(), std::ios::binary)
+      DoomDevice(std::filesystem::path path):
+          stream_(path, std::ios::binary)
       {
           stream_.exceptions(stream_.failbit | stream_.badbit);
       }
@@ -89,7 +90,7 @@ namespace {
               String name { dir.name, size };
 
               if (dir.size == 0) {
-                  if (name == "T_START") {
+                  if (name == "T_START" || name == "TT_START") {
                       section = wad::Section::textures;
                   } else if (name == "G_START") {
                       section = wad::Section::graphics;
@@ -97,7 +98,7 @@ namespace {
                       section = wad::Section::sprites;
                   } else if (name == "DS_START") {
                       section = wad::Section::sounds;
-                  } else if (name == "T_END") {
+                  } else if (name == "T_END" || name == "TT_END") {
                       section = wad::Section::normal;
                   } else if (name == "G_END") {
                       section = wad::Section::normal;
@@ -112,6 +113,8 @@ namespace {
                   }
                   continue;
               }
+
+              log::info("> {}", name);
 
               if (section == Section::textures)
                   iwad_textures.emplace_back(name);
@@ -147,9 +150,9 @@ UniquePtr<std::istream> DoomLump::stream()
 IDevice& DoomLump::device()
 { return device_; }
 
-IDevicePtr wad::doom_loader(StringView path)
+IDevicePtr wad::doom_loader(const std::filesystem::path& path)
 {
-    std::ifstream file(path.to_string(), std::ios::binary);
+    std::ifstream file(path, std::ios::binary);
     Header header;
     read_into(file, header);
     if (memcmp(header.id, "IWAD", 4) == 0 || memcmp(header.id, "PWAD", 4) == 0) {

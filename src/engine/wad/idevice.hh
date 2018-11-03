@@ -1,6 +1,7 @@
 #ifndef __IDEVICE__11091036
 #define __IDEVICE__11091036
 
+#include <filesystem>
 #include "ilump.hh"
 
 namespace imp {
@@ -13,7 +14,7 @@ namespace imp {
     };
 
     using IDevicePtr = UniquePtr<IDevice>;
-    using IDeviceLoader = IDevicePtr (StringView);
+    using IDeviceLoader = IDevicePtr (const std::filesystem::path&);
   }
 }
 

@@ -4,6 +4,7 @@
 
 #include <fstream>
 #include <sstream>
+#include <filesystem>
 #include <zlib.h>
 
 #include "wad/idevice.hh"
@@ -280,9 +281,9 @@ UniquePtr<std::istream> ZipLump::stream()
         return std::make_unique<std::istringstream>(std::move(bytes));
 }
 
-IDevicePtr wad::zip_loader(StringView name)
+IDevicePtr wad::zip_loader(const std::filesystem::path& name)
 {
-    std::ifstream file(name.to_string(), std::ios::binary);
+    std::ifstream file(name, std::ios::binary);
     file.exceptions(file.badbit | file.failbit);
 
     char signature[4];
