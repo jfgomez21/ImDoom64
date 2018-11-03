@@ -24,12 +24,6 @@
 //
 //-----------------------------------------------------------------------------
 
-#ifdef _MSC_VER
-#include "i_opndir.h"
-#else
-#include <dirent.h>
-#endif
-
 #include <ctype.h>
 #include <wad.hh>
 #include "doomdef.h"

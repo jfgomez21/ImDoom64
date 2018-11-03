@@ -1,4 +1,5 @@
 
+#include <cctype>
 #include <fstream>
 #include <filesystem>
 #include "prelude.hh"

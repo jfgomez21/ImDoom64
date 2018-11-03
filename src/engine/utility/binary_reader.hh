@@ -46,9 +46,9 @@ namespace imp {
       /*! Magic */
       BinaryReader& magic(StringView cmp)
       {
-          char str[cmp.length() + 1];
-          s_.read(str, cmp.length());
-          str[cmp.length()] = 0;
+          std::string str;
+          str.resize(cmp.length());
+          s_.read(&str[0], cmp.length());
 
           if (cmp != str)
               throw magic_error("Magic string doesn't match");

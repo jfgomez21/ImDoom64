@@ -33,12 +33,6 @@
 #include <unistd.h>
 #endif
 
-#ifdef _MSC_VER
-#include "i_opndir.h"
-#else
-#include <dirent.h>
-#endif
-
 #include "SDL.h"
 
 #include <fcntl.h>
@@ -3241,7 +3235,7 @@ void M_LoadGame(int choice) {
 // Read the strings from the savegame files
 //
 void M_ReadSaveStrings(void) {
-    int     handle;
+    FILE*   handle;
     int     i;
     // char    name[256];
 
@@ -3249,14 +3243,14 @@ void M_ReadSaveStrings(void) {
         // sprintf(name, SAVEGAMENAME"%d.dsg", i);
 
         // handle = open(name, O_RDONLY | 0, 0666);
-        handle = open(P_GetSaveGameName(i), O_RDONLY | 0, 0666);
-        if(handle == -1) {
+        handle = fopen(P_GetSaveGameName(i), "rb");
+        if(handle == NULL) {
             dstrcpy(&savegamestrings[i][0],EMPTYSTRING);
             DoomLoadMenu[i].status = 0;
             continue;
         }
-        read(handle, &savegamestrings[i], MENUSTRINGSIZE);
-        close(handle);
+        fread(&savegamestrings[i], 1, MENUSTRINGSIZE, handle);
+        fclose(handle);
         DoomLoadMenu[i].status = 1;
     }
 }

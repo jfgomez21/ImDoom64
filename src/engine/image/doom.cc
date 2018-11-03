@@ -44,7 +44,7 @@ Optional<Image> Doom::load(std::istream& s) const
     Header header;
     s.read(reinterpret_cast<char*>(&header), sizeof header);
 
-    int columns[header.width];
+    auto columns = std::make_unique<int[]>(header.width);
     for (int i = 0; i < header.width; i++)
         s.read(reinterpret_cast<char*>(&columns[i]), sizeof(int));
 

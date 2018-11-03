@@ -4,6 +4,7 @@
 #include <map>
 #include <functional>
 
+namespace imp {
 template <typename K, typename T, typename Compare>
 class radix_tree_node {
     friend class radix_tree<K, T, Compare>;
@@ -52,6 +53,7 @@ radix_tree_node<K, T, Compare>::~radix_tree_node()
     delete m_value;
 }
 
+}
 
 #endif // RADIX_TREE_NODE_HPP
 

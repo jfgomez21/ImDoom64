@@ -25,6 +25,8 @@
 //
 //-----------------------------------------------------------------------------
 
+#include <filesystem>
+
 #include "doomdef.h"
 #include "doomstat.h"
 #include "z_zone.h"
@@ -34,14 +36,7 @@
 #include "m_misc.h"
 #include "m_random.h"
 #include "con_console.h"
-
-#ifdef _MSC_VER
-#include "i_opndir.h"
-#else
-#include <unistd.h>
-#include <wad.hh>
-
-#endif
+#include "wad.hh"
 
 void        G_DoLoadLevel(void);
 dboolean    G_CheckDemoStatus(void);
@@ -137,7 +132,7 @@ void G_RecordDemo(const char* name) {
     dstrcpy(demoname, name);
     dstrcat(demoname, ".lmp");
     
-    if(access(demoname, F_OK)) {
+    if(!std::filesystem::exists(demoname)) {
         demofp = fopen(demoname, "wb");
     }
     else {
@@ -145,7 +140,7 @@ void G_RecordDemo(const char* name) {
 
         while(demonum < 10000) {
             sprintf(demoname, "%s%i.lmp", name, demonum);
-            if(access(demoname, F_OK)) {
+            if(!std::filesystem::exists(demoname)) {
                 demofp = fopen(demoname, "wb");
                 break;
             }

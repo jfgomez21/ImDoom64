@@ -26,11 +26,7 @@
 //
 //-----------------------------------------------------------------------------
 
-#ifdef _MSC_VER
-#include "i_opndir.h"
-#else
-#include <dirent.h>
-#endif
+#include <cctype>
 
 #include "doomdef.h"
 #include "doomstat.h"
@@ -155,7 +151,23 @@ int dstrncmp(const char *s1, const char *s2, int len) {
 //
 
 int dstricmp(const char *s1, const char *s2) {
-    return strcasecmp(s1, s2);
+    for (; *s1 && *s2; ++s1, ++s2) {
+        auto c1 = std::toupper(*s1);
+        auto c2 = std::toupper(*s2);
+        if (c1 < c2) {
+            return -1;
+        } else if (c1 > c2) {
+            return 1;
+        }
+    }
+
+    if (*s1) {
+        return -1;
+    } else if (*s2) {
+        return 1;
+    } else {
+        return 0;
+    }
 }
 
 //
@@ -163,7 +175,23 @@ int dstricmp(const char *s1, const char *s2) {
 //
 
 int dstrnicmp(const char *s1, const char *s2, int len) {
-    return strncasecmp(s1, s2, len);
+    for (int i = 0; i < len && *s1 && *s2; ++i, ++s1, ++s2) {
+        auto c1 = std::toupper(*s1);
+        auto c2 = std::toupper(*s2);
+        if (c1 < c2) {
+            return -1;
+        } else if (c1 > c2) {
+            return 1;
+        }
+    }
+
+    if (*s1) {
+        return -1;
+    } else if (*s2) {
+        return 1;
+    } else {
+        return 0;
+    }
 }
 
 //

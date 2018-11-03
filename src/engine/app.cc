@@ -5,7 +5,9 @@
 #include <clocale>
 #include <filesystem>
 
+#ifdef __GNUC__
 #include <cxxabi.h>
+#endif // __GNUC__
 
 #include "SDL.h"
 #include "core/args.hh"
@@ -88,7 +90,7 @@ void app::main(int argc, char **argv)
 bool app::file_exists(StringView path)
 {
 #ifdef _WIN32
-    return std::ifstream(path.to_string()).is_open();
+    return std::ifstream(std::string{path}).is_open();
 #else
     struct stat st;
 
@@ -102,23 +104,23 @@ bool app::file_exists(StringView path)
 
 Optional<String> app::find_data_file(StringView name, StringView dir_hint)
 {
-    String path;
+    std::filesystem::path path;
 
     if (!dir_hint.empty()) {
         path = fmt::format("{}{}", dir_hint, name);
-        if (app::file_exists(path))
-            return path;
+        if (std::filesystem::is_regular_file(path))
+            return std::make_optional<String>(path.string());
     }
 
     path = _base_dir;
-    path += name;
-    if (app::file_exists(path))
-        return path;
+    path /= std::string{name};
+    if (std::filesystem::is_regular_file(path))
+        return std::make_optional<String>(path.string());
 
     path = _data_dir;
-    path += name;
-    if (app::file_exists(path))
-        return path;
+    path /= std::string{name};
+    if (std::filesystem::is_regular_file(path))
+        return std::make_optional<String>(path.string());
 
 #if defined(__LINUX__) || defined(__OpenBSD__)
     const char *paths[] = {
@@ -136,8 +138,8 @@ Optional<String> app::find_data_file(StringView name, StringView dir_hint)
 
     for (auto p : paths) {
         path = fmt::format("{}{}", p, name);
-        if (app::file_exists(path))
-            return path;
+        if (std::filesystem::is_regular_file(path))
+            return std::make_optional<String>(path.string());
     }
 #endif
 

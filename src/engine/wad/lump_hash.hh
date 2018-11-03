@@ -1,6 +1,8 @@
 #ifndef LUMP_HASH_HH
 #define LUMP_HASH_HH
 
+#include <cctype>
+
 namespace imp {
   namespace wad {
     class LumpHash {

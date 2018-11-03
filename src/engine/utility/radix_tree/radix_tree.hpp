@@ -10,6 +10,7 @@
 #include "radix_tree_node.hpp"
 #include <functional>
 
+namespace imp {
 template<typename K>
 K radix_substr(const K &key, int begin, int num);
 
@@ -587,6 +588,7 @@ $
 $
 
 */
+}
 
 #endif // RADIX_TREE_HPP
 

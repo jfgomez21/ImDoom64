@@ -1,3 +1,4 @@
+#include <cctype>
 #include <iostream>
 #include "ref.hh"
 #include "store.hh"

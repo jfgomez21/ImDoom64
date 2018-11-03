@@ -5,6 +5,7 @@
 #include <functional>
 
 // forward declaration
+namespace imp {
 template <typename K, typename T, class Compare = std::less<K> > class radix_tree;
 template <typename K, typename T, class Compare = std::less<K> > class radix_tree_node;
 
@@ -113,5 +114,6 @@ const radix_tree_it<K, T, Compare>& radix_tree_it<K, T, Compare>::operator-- ()
     return *this;
 }
 */
+}
 
 #endif // RADIX_TREE_IT

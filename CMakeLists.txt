@@ -35,7 +35,7 @@ option(ENABLE_GTK3 "Display windows using GTK+3" OFF)
 option(VERSION_DEV "Add git commit hash to window title" ON)
 
 # If fluidsynth-lite wasn't cloned, fall back to using system fluidsynth.
-if(NOT EXISTS "${CMAKE_SOURCE_DIR}/fluidsynth/CMakeLists.txt" AND NOT ENABLE_SYSTEM_FLUIDSYNTH)
+if(NOT EXISTS "${CMAKE_SOURCE_DIR}/subprojects/fluidsynth-lite/CMakeLists.txt" AND NOT ENABLE_SYSTEM_FLUIDSYNTH)
   set(ENABLE_SYSTEM_FLUIDSYNTH ON)
   message(WARNING "The fluidsynth submodule wasn't initialised. Run `git submodule update --init --recursive` to use fluidsynth-lite, or add -DENABLE_SYSTEM_FLUIDSYNTH=ON to use the system-provided FluidSynth library.")
 endif()
@@ -145,7 +145,7 @@ endif(BUILD_TESTS)
 ##
 
 if(NOT ENABLE_SYSTEM_FLUIDSYNTH)
-  add_subdirectory("${CMAKE_SOURCE_DIR}/fluidsynth")
+  add_subdirectory("${CMAKE_SOURCE_DIR}/subprojects/fluidsynth-lite")
 endif()
 
 add_subdirectory("${CMAKE_SOURCE_DIR}/src/engine")
@@ -165,7 +165,7 @@ else()
   # Build imdoom64.pk3
   add_custom_target(pk3 ALL
     WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/data/imdoom64.pk3"
-    COMMAND "${CMAKE_COMMAND}" -E tar "cfv" "${CMAKE_BINARY_DIR}/imdoom64.pk3" --format=zip "--files-from=${CMAKE_SOURCE_DIR}/distrib/imdoom64_pk3.txt")
+    COMMAND "${CMAKE_COMMAND}" -E tar "cfv" "${CMAKE_BINARY_DIR}/imdoom64.pk3" --format=zip "--files-from=${CMAKE_SOURCE_DIR}/data/imdoom64_pk3.txt")
 
   # Install imdoom64.pk3
   if (NOT WIN32)

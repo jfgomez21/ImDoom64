@@ -1312,5 +1312,9 @@ void G_UnbindAction(const char *action) {
 // CMD_Crash
 //
 static CMD(Crash) {
+#ifdef __GNUC__
     __builtin_trap();
+#else
+    std::abort();
+#endif
 }
