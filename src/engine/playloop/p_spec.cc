@@ -1933,17 +1933,17 @@ void P_UpdateSpecials(void) {
                 switch(buttonlist[i].where) {
                 case top:
                     sides[buttonlist[i].line->sidenum[0]].toptexture =
-                        swx_start + ((buttonlist[i].btexture - swx_start) ^ 1);
+                        ((buttonlist[i].btexture) ^ 1);
                     break;
 
                 case middle:
                     sides[buttonlist[i].line->sidenum[0]].midtexture =
-                        swx_start + ((buttonlist[i].btexture - swx_start) ^ 1);
+                        ((buttonlist[i].btexture) ^ 1);
                     break;
 
                 case bottom:
                     sides[buttonlist[i].line->sidenum[0]].bottomtexture =
-                        swx_start + ((buttonlist[i].btexture - swx_start) ^ 1);
+                        ((buttonlist[i].btexture) ^ 1);
                     break;
                 }
 
