@@ -24,8 +24,11 @@ before_build:
   # Setup msbuild
   - cmake -DCMAKE_TOOLCHAIN_FILE='C:\tools\vcpkg\scripts\buildsystems\vcpkg.cmake' .
 
-build:
-  project: $(APPVEYOR_BUILD_FOLDER)\$(APPVEYOR_PROJECT_NAME).sln
+build_script:
+  - cmake --build .
+
+# build:
+#   project: $(APPVEYOR_BUILD_FOLDER)\$(APPVEYOR_PROJECT_NAME).sln
 
 cache:
   - c:\tools\vcpkg\installed
