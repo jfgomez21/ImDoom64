@@ -42,7 +42,7 @@ $ mkdir -p ImDoom64/build
 $ cd ImDoom64/build
 
 $ # Build
-$ meson --default-library=static --buildtype=release ..
+$ CC=gcc-8 CXX=g++-8 meson --default-library=static --buildtype=release -Denable_gtk3=false ..
 $ ninja
 $ sudo ninja install
 ```
