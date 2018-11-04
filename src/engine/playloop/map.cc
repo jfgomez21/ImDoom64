@@ -89,11 +89,12 @@ int W_MapLumpLength(int lump)
 
 extern Vector<String> rom_textures;
 void P_InitTextureHashTable(void) {
-    for (size_t i = 0; i < rom_textures.size(); ++i) {
-        texturehashlist_.emplace(i, i);
-    }
+    // FIXME: Collision between ROM textures and PWAD textures!
     for(auto& lump : wad::list_section(wad::Section::textures)) {
         texturehashlist_.emplace(wad::LumpHash(lump->name()).get(), lump->section_index());
+    }
+    for (size_t i = 0; i < rom_textures.size(); ++i) {
+        texturehashlist_.emplace(i, i);
     }
 }
 
