@@ -98,7 +98,7 @@ if zip_prog.found()
   )
 
   if target_machine.system() == 'linux'
-    install_dir = 'usr/share/imdoom64'
+    install_dir = 'share/imdoom64'
   elif target_machine.system() == 'darwin'
     install_dir = 'Resource/ImDoom64'
   else

@@ -91,10 +91,26 @@ extern Vector<String> rom_textures;
 void P_InitTextureHashTable(void) {
     // FIXME: Collision between ROM textures and PWAD textures!
     for(auto& lump : wad::list_section(wad::Section::textures)) {
-        texturehashlist_.emplace(wad::LumpHash(lump->name()).get(), lump->section_index());
+        auto [it, ok] = texturehashlist_.try_emplace(
+            wad::LumpHash(lump->name()).get(),
+            lump->section_index());
+
+        if (!ok) {
+            DEBUG("Texture '{:<8}' shares hash with '{:<8}'! ({})",
+                  lump->name(),
+                  wad::open(wad::Section::textures, it->second)->name(),
+                  it->first);
+        }
     }
     for (size_t i = 0; i < rom_textures.size(); ++i) {
-        texturehashlist_.emplace(i, i);
+        auto [it, ok] = texturehashlist_.try_emplace(i, i);
+
+        if (!ok) {
+            DEBUG("Texture '{:<8}' shares hash with '{:<8}'! ({})",
+                  wad::open(wad::Section::textures, i)->name(),
+                  wad::open(wad::Section::textures, it->second)->name(),
+                  it->first);
+        }
     }
 }
 

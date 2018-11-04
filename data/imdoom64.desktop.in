@@ -1,5 +1,5 @@
 [Desktop Entry]
-Name=Doom 64 EX
+Name=ImDoom 64
 Exec=@program_name@
 Icon=@program_name@
 Type=Application
