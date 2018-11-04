@@ -10,10 +10,17 @@ namespace imp {
 
   namespace wad {
     class IDevice;
+    class Lump;
 
     class ILump {
         size_t section_index_ {};
         size_t lump_index_ {};
+
+        std::unique_ptr<ILump> m_previous {};
+        ILump *m_next {};
+
+        friend class Lump;
+
     public:
         virtual ~ILump() {}
 
@@ -93,10 +100,19 @@ namespace imp {
 
         void set_lump_index(size_t new_index)
         { lump_index_ = new_index; }
+
+        /*!
+         */
+        void set_previous(std::unique_ptr<ILump>&& old)
+        {
+            m_previous = std::move(old);
+            m_next = m_previous->m_next;
+            m_previous->m_next = this;
+        }
     };
 
     /*!
-     * Comparator (Mostly for sorting). Compares by name
+     * Comparator (Mostly for sorting). Compares by name.
      */
     inline bool operator<(const ILump& a, const ILump& b)
     { return a.name() < b.name(); }

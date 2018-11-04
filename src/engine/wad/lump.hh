@@ -136,26 +136,41 @@ namespace imp {
          *
          * @return true if an earlier version exists and was loaded, false otherwise
          */
-        bool previous();
+        bool previous_version();
 
         /*!
          * Same as `has_previous`, but only checks that a previous lump exists.
          *
          * @return true if an earlier version exists, false otherwise
          */
-        bool has_previous() const;
+        bool has_previous_version() const;
 
         /*!
          * Opens a newer version of the same lump.
          * @return true if a newer version exists and was loaded, false otherwise
          */
-        bool next();
+        bool next_version();
 
         /*!
-         * Same as `has_next`, but only checks that a newer lump exists.
+         * Same as `has_next_version`, but only checks that a newer lump exists.
          * @return true if a newer version exists, false otherwise
          */
-        bool has_next() const;
+        bool has_next_version() const;
+
+        /*!
+         * Opens the first loaded version of this lump. Equivalent to multiple
+         * invocations of `previous_version`.
+         * @return false if lump was already the first version, true otherwise
+         */
+        bool first_version();
+
+
+        /*!
+         * Opens the last loaded version of this lump. Equivalent to multiple
+         * invocations of `last_version`.
+         * @return false if lump was already the last version, true otherwise
+         */
+        bool last_version();
     };
   }
 }

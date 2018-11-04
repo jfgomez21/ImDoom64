@@ -80,7 +80,7 @@ void W_FreeMapLump()
 
 int W_MapLumpLength(int lump)
 {
-    return lumps_[lump].data.size();
+    return lumps_.at(lump).data.size();
 }
 
 //

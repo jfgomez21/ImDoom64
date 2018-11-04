@@ -3,6 +3,7 @@
 #include <filesystem>
 #include "../idevice.hh"
 #include "../wad_loaders.hh"
+#include "map_lump.hh"
 
 using namespace imp::wad;
 Vector<String> iwad_textures;
@@ -81,6 +82,9 @@ namespace {
           stream_.seekg(header.infotableofs);
           size_t numlumps = header.numlumps;
 
+          size_t map_step {};
+          std::unique_ptr<wad::doom::MapLump> map_lump {};
+
           for (size_t i = 0; i < numlumps; ++i) {
               Directory dir;
               read_into(stream_, dir);
@@ -88,6 +92,26 @@ namespace {
               std::size_t size {};
               while (size < 8 && dir.name[size]) ++size;
               String name { dir.name, size };
+
+              if (map_step) {
+                  DEBUG("Adding {}", name);
+                  std::string content;
+                  auto current_pos = stream_.tellg();
+                  stream_.seekg(dir.filepos);
+                  content.resize(dir.size);
+                  stream_.read(&content[0], dir.size);
+                  stream_.seekg(current_pos);
+
+                  map_lump->add_lump(name, content);
+                  --map_step;
+
+                  if (map_step == 0) {
+                      DEBUG("Building {}", map_lump->name());
+                      map_lump->build();
+                      lumps.emplace_back(std::move(map_lump));
+                  }
+                  continue;
+              }
 
               if (dir.size == 0) {
                   if (name == "T_START" || name == "TT_START") {
@@ -108,13 +132,16 @@ namespace {
                       section = wad::Section::normal;
                   } else if (name == "ENDOFWAD") {
                       break;
+                  } else if (name.substr(0, 3) == "MAP") {
+                      map_step = 13;
+                      map_lump = std::make_unique<wad::doom::MapLump>(*this, name);
+                      map_lump->add_lump(name, "");
+                      continue;
                   } else {
                       log::warn("Unknown WAD directory '{}'", name);
                   }
                   continue;
               }
-
-              log::info("> {}", name);
 
               if (section == Section::textures)
                   iwad_textures.emplace_back(name);

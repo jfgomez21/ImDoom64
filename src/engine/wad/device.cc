@@ -30,7 +30,8 @@ namespace {
               m_index_by_name.emplace(lump->name(), m_lumps.size());
               m_lumps.push_back(std::move(lump));
           } else {
-              std::swap(m_lumps[it->second], lump);
+              lump->set_previous(std::move(m_lumps[it->second]));
+              m_lumps[it->second] = std::move(lump);
           }
       }
 
@@ -157,60 +158,50 @@ ArrayView<ILumpPtr> wad::list_section(wad::Section section)
     return section_lumps_[static_cast<size_t>(section)].view();
 }
 
-bool Lump::previous()
+bool Lump::previous_version()
 {
-//    const auto& sect = section_lumps_[static_cast<size_t>(section())];
-//
-//    if (m_offset >= sect.size())
-//        return false;
-//
-//    auto& lump = sect[m_offset + 1];
-//    if (lump_index() == lump->lump_index()) {
-//        m_offset++;
-//        m_context = lump.get();
-//        return true;
-//    }
-
+    assert(m_context);
+    m_stream = nullptr;
+    if (m_context->m_previous) {
+        m_context = m_context->m_previous.get();
+        return true;
+    }
     return false;
 }
 
-bool Lump::has_previous() const
+bool Lump::has_previous_version() const
 {
-//    const auto& sect = section_lumps_[static_cast<size_t>(section())];
-//
-//    if (m_offset >= sect.size())
-//        return false;
-//
-//    const auto& lump = sect[m_offset + 1];
-//    return lump_index() == lump->lump_index();
-return false;
+    assert(m_context);
+    return m_context->m_previous != nullptr;
 }
 
-bool Lump::next()
+bool Lump::next_version()
 {
-//    const auto& sect = section_lumps_[static_cast<size_t>(section())];
-//
-//    if (m_offset == 0)
-//        return false;
-//
-//    auto& lump = sect[m_offset - 1];
-//    if (lump_index() == lump->lump_index()) {
-//        m_offset--;
-//        m_context = lump.get();
-//        return true;
-//    }
-
+    assert(m_context);
+    m_stream = nullptr;
+    if (m_context->m_next) {
+        m_context = m_context->m_next;
+        return true;
+    }
     return false;
 }
 
-bool Lump::has_next() const
+bool Lump::has_next_version() const
 {
-//    const auto& sect = section_lumps_[static_cast<size_t>(section())];
-//
-//    if (m_offset == 0)
-//        return false;
-//
-//    const auto& lump = sect[m_offset - 1];
-//    return lump_index() == lump->lump_index();
-return false;
+    assert(m_context);
+    return m_context->m_next != nullptr;
+}
+
+bool Lump::first_version()
+{
+    auto old = m_context;
+    while (previous_version());
+    return old != m_context;
+}
+
+bool Lump::last_version()
+{
+    auto old = m_context;
+    while (next_version());
+    return old != m_context;
 }
