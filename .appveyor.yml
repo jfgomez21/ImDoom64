@@ -1,8 +1,8 @@
 version: '{build}'
 
 image: Visual Studio 2017
-platform: x86
-configuration: Release
+# platform: x86
+# configuration: Release
 
 branches:
   except:
@@ -11,14 +11,17 @@ branches:
 clone_script:
   - cmd: git clone -q --recursive --branch=%APPVEYOR_REPO_BRANCH% https://github.com/%APPVEYOR_REPO_NAME%.git %APPVEYOR_BUILD_FOLDER%
 
-
 before_build:
   - call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvars32.bat"
+
+  # Install dependencies
   - vcpkg install sdl2:x86-windows
   - vcpkg install sdl2-net:x86-windows
   - vcpkg install fmt:x86-windows
   - vcpkg install libpng:x86-windows
   - vcpkg install zlib:x86-windows
+
+  # Setup msbuild
   - cmake -DCMAKE_TOOLCHAIN_FILE='C:\tools\vcpkg\scripts\buildsystems\vcpkg.cmake' .
 
 build:
