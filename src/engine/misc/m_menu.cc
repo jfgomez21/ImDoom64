@@ -1574,7 +1574,7 @@ void M_ChangeOpacity(int choice);
 void M_DrawDisplay(void);
 
 extern cvar::IntVar st_drawhud;
-extern cvar::BoolVar st_crosshair;
+extern cvar::IntVar st_crosshair;
 extern cvar::FloatVar st_crosshairopacity;
 extern cvar::BoolVar st_flashoverlay;
 extern cvar::BoolVar st_showpendingweapon;
