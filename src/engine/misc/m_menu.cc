@@ -1082,7 +1082,7 @@ extern cvar::BoolVar compat_limitpain;
 extern cvar::BoolVar compat_mobjpass;
 extern cvar::BoolVar compat_grabitems;
 extern cvar::BoolVar r_wipe;
-extern cvar::BoolVar r_rendersprites;
+extern cvar::IntVar  r_rendersprites;
 extern cvar::BoolVar r_texturecombiner;
 extern cvar::IntVar r_colorscale;
 

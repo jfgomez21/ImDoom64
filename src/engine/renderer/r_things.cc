@@ -58,7 +58,7 @@ extern cvar::IntVar m_regionblood;
 extern cvar::BoolVar st_flashoverlay;
 extern cvar::BoolVar i_interpolateframes;
 extern cvar::BoolVar r_texturecombiner;
-extern cvar::BoolVar r_rendersprites;
+extern cvar::IntVar r_rendersprites;
 
 static void AddSpriteDrawlist(drawlist_t *dl, visspritelist_t *vis, int texid);
 

@@ -35,7 +35,7 @@
 extern cvar::BoolVar i_interpolateframes;
 extern cvar::BoolVar r_texturecombiner;
 extern cvar::BoolVar r_fog;
-extern cvar::BoolVar r_rendersprites;
+extern cvar::IntVar  r_rendersprites;
 extern cvar::BoolVar st_flashoverlay;
 
 //
