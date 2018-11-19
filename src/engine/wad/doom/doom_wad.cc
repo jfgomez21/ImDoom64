@@ -131,7 +131,7 @@ namespace {
                   } else if (name == "DS_END") {
                       section = wad::Section::normal;
                   } else if (name == "ENDOFWAD") {
-                      break;
+                      continue;
                   } else if (name.substr(0, 3) == "MAP") {
                       map_step = 13;
                       map_lump = std::make_unique<wad::doom::MapLump>(*this, name);
