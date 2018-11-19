@@ -52,7 +52,7 @@
 #include "p_setup.h"
 #include "gl_draw.h"
 #include "g_demo.h"
-#include "image.hh"
+#include "image/image.hh"
 
 cvar::IntVar st_drawhud            = 1;
 cvar::IntVar st_crosshair          = 0;
