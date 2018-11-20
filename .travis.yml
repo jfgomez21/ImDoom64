@@ -47,9 +47,16 @@ before_install:
   - meson --version
   - ninja --version
 
-
 script:
   # Compile our thing!
   - mkdir build && cd build
   - meson --default-library=static --buildtype=release -Denable_gtk3=${ENABLE_GTK3} ..
   - ninja
+
+addons:
+  artifacts:
+    region: eu-central-1
+    working_dir: build
+    paths:
+      - imdoom64
+      - imdoom64.pk3
