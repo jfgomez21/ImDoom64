@@ -15,7 +15,7 @@ there is no `Wadgen` utility. To use, rename your legally obtained ROM to
 
 ## Linux
 
-Dependencies:
+### Dependencies
 
 - `git`
 - C++17-compliant compiler (`gcc` 8).
@@ -30,6 +30,61 @@ Dependencies:
 
 The optional dependencies will be downloaded and compiled automatically by
 `meson` if missing.
+
+#### Ubuntu 14.04, 16.04
+
+```bash
+$ # Install required dependencies
+$ sudo add-apt-repository ppa:ubuntu-toolchain-r/test
+$ sudo apt-get update
+$ sudo apt-get install -y g++-8 git libsdl2-net-dev libpng-dev python3.5 python3-pip
+$ python3.5 -m pip3 install --user meson
+
+$ # Install optional dependencies (GTK+3)
+$ sudo apt-get install -y valac libgtk-3-dev
+
+$ # Set up environment (NOTE: Repeat these steps if you close your shell)
+$ export PATH=$HOME/.local/bin:$PATH CC=gcc-8 CXX=g++-8
+
+#### Ubuntu 18.04
+
+```bash
+$ # Install required dependencies
+$ sudo apt-get install -y g++-8 git libsdl2-net-dev libpng-dev ninja-build python3-pip
+$ pip3 install meson
+
+$ # Install optional dependencies (GTK+3)
+$ sudo apt-get install -y valac libgtk-3-dev
+
+$ # Set up environment (NOTE: Repeat these steps if you close your shell)
+$ export PATH=$HOME/.local/bin:$PATH CC=gcc-8 CXX=g++-8
+```
+
+#### Ubuntu 18.10, Debian Testing/Unstable
+
+```bash
+$ # Install required dependencies
+$ sudo apt-get install -y g++-8 meson git libsdl2-net-dev libpng-dev
+
+$ # Install optional dependencies (GTK+3)
+$ sudo apt-get install -y valac libgtk-3-dev
+
+$ # Set up environment (NOTE: Repeat these steps if you close your shell)
+$ export CC=gcc-8 CXX=g++-8
+```
+
+#### Unsupported Distributions
+
+The following distributions are unsupported at the moment. If you manage to get
+this program to work, please submit a pull-request with updated documentation.
+
+- Red Hat Enterprise Linux
+- SUSE Enterprise Linux
+- CentOS
+- Debian Stable
+- Any distribution whose maintainers have stopped supporting. (Ie. old LTS distros)
+
+### Common Compilation Steps
 
 Once everything is installed, do:
 
