@@ -49,7 +49,7 @@ mapthing_t* spawnlist;
 int         numspawnlist;
 
 void G_PlayerReborn(int player);
-mobj_t* P_SpawnMapThing(mapthing_t* mthing);
+mobj_t* P_SpawnMapThing(mapthing_t* mthing, bool spawn = true);
 void P_CreateFadeThinker(mobj_t* mobj, line_t* line);
 void P_CreateFadeOutThinker(mobj_t* mobj, line_t* line);
 
@@ -978,7 +978,7 @@ int EV_FadeOutMobj(line_t* line) {
 // already be in host byte order.
 //
 
-mobj_t* P_SpawnMapThing(mapthing_t* mthing) {
+mobj_t* P_SpawnMapThing(mapthing_t* mthing, bool spawn) {
     int                 i;
     int                 bit;
     mobj_t*             mobj;
@@ -1054,6 +1054,11 @@ mobj_t* P_SpawnMapThing(mapthing_t* mthing) {
         mthing->options &= ~MTF_SPAWN;
         dmemcpy(&spawnlist[numspawnlist++], mthing, sizeof(mapthing_t));
 
+        return NULL;
+    }
+
+    // don't initialise the mobj if we're loading from a savegame
+    if (!spawn) {
         return NULL;
     }
 

@@ -42,7 +42,7 @@
 #include "m_misc.h"
 #include "doomdef.h" // added just so MSVC would shut up about warning C4761
 
-void G_DoLoadLevel(void);
+void G_DoLoadLevel(bool spawn_mobjs = true);
 
 //
 // consistency markers
@@ -1307,7 +1307,7 @@ dboolean P_ReadSaveGame(char* name) {
 
         // load a base level
         G_InitNew(gameskill, gamemap);
-        G_DoLoadLevel();
+        G_DoLoadLevel(false);
 
         P_UnArchiveMobjs();
         P_UnArchivePlayers();

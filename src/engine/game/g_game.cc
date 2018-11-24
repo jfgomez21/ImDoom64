@@ -934,7 +934,7 @@ static void G_SetGameFlags(void) {
 // G_DoLoadLevel
 //
 
-void G_DoLoadLevel(void) {
+void G_DoLoadLevel(bool spawn_mobjs = true) {
     int i;
     mapdef_t* map;
 
@@ -989,7 +989,7 @@ void G_DoLoadLevel(void) {
         respawnspecials = false;
     }
 
-    P_SetupLevel(gamemap, 0, gameskill);
+    P_SetupLevel(gamemap, 0, gameskill, spawn_mobjs);
     displayplayer = consoleplayer;        // view the guy you are playing
     starttime = I_GetTime();
     gameaction = ga_nothing;

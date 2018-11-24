@@ -38,7 +38,7 @@
 #include "con_console.h"
 #include "wad.hh"
 
-void        G_DoLoadLevel(void);
+void        G_DoLoadLevel(bool spawn_mobjs = true);
 dboolean    G_CheckDemoStatus(void);
 void        G_ReadDemoTiccmd(ticcmd_t* cmd);
 void        G_WriteDemoTiccmd(ticcmd_t* cmd);

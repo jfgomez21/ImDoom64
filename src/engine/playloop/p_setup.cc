@@ -45,7 +45,7 @@
 #include "sc_main.h"
 #include "map.hh"
 
-mobj_t* P_SpawnMapThing(mapthing_t *mthing);
+mobj_t* P_SpawnMapThing(mapthing_t *mthing, bool spawn);
 
 //
 // MAP related Lookup tables.
@@ -498,7 +498,7 @@ void P_LoadLeafs(int lump) {
 // P_LoadThings
 //
 
-void P_LoadThings(int lump) {
+void P_LoadThings(int lump, bool spawn_mobjs) {
     int             i;
     int             j;
     mapthing_t*     mt;
@@ -546,7 +546,7 @@ void P_LoadThings(int lump) {
         mt->options = SHORT(mt->options);
         mt->tid = SHORT(mt->tid);
 
-        P_SpawnMapThing(mt);
+        P_SpawnMapThing(mt, spawn_mobjs);
 
         // [kex] Hack to force-spawn co-op player starts on top of player 1
         // 20120122 villsa - updated to spawn co-op players away from
@@ -559,7 +559,7 @@ void P_LoadThings(int lump) {
                 mt->type = 2;
                 mt->x = x;
                 mt->y = y;
-                P_SpawnMapThing(mt);
+                P_SpawnMapThing(mt, spawn_mobjs);
                 CON_Warnf("No free spot for player 2\n");
             }
 
@@ -567,7 +567,7 @@ void P_LoadThings(int lump) {
                 mt->type = 3;
                 mt->x = x;
                 mt->y = y;
-                P_SpawnMapThing(mt);
+                P_SpawnMapThing(mt, spawn_mobjs);
                 CON_Warnf("No free spot for player 3\n");
             }
 
@@ -575,7 +575,7 @@ void P_LoadThings(int lump) {
                 mt->type = 4;
                 mt->x = x;
                 mt->y = y;
-                P_SpawnMapThing(mt);
+                P_SpawnMapThing(mt, spawn_mobjs);
                 CON_Warnf("No free spot for player 4\n");
             }
         }
@@ -982,7 +982,7 @@ void P_SetupPlanes(void) {
 // P_SetupLevel
 //
 
-void P_SetupLevel(int map, int playermask, skill_t skill) {
+void P_SetupLevel(int map, int playermask, skill_t skill, bool spawn_mobjs) {
     int i;
 
     CON_DPrintf("--------P_SetupLevel--------\n");
@@ -1030,7 +1030,7 @@ void P_SetupLevel(int map, int playermask, skill_t skill) {
     P_LoadReject(ML_REJECT);
     P_LoadLights(ML_LIGHTS);
     P_GroupLines();
-    P_LoadThings(ML_THINGS);
+    P_LoadThings(ML_THINGS, spawn_mobjs);
     W_FreeMapLump();
 
     dmemset(taglist, 0, sizeof(int) * MAXQUEUELIST);
@@ -1042,20 +1042,21 @@ void P_SetupLevel(int map, int playermask, skill_t skill) {
     P_SetupPlanes();
 
     // if deathmatch, randomly spawn the active players
-    if(deathmatch) {
-        for(i = 0; i < MAXPLAYERS; i++) {
-            if(playeringame[i]) {
-                players[i].mo = NULL;
-                G_DeathMatchSpawnPlayer(i);
+    if (spawn_mobjs) {
+        if (deathmatch) {
+            for (i = 0; i < MAXPLAYERS; i++) {
+                if (playeringame[i]) {
+                    players[i].mo = NULL;
+                    G_DeathMatchSpawnPlayer(i);
+                }
             }
-        }
 
-    }
-    else {
-        // [d64] player starts are spawned here instead of in P_SpawnMapThing
-        for(i = 0; i < MAXPLAYERS; i++) {
-            if(playeringame[i]) {
-                P_SpawnPlayer(&playerstarts[i]);
+        } else {
+            // [d64] player starts are spawned here instead of in P_SpawnMapThing
+            for (i = 0; i < MAXPLAYERS; i++) {
+                if (playeringame[i]) {
+                    P_SpawnPlayer(&playerstarts[i]);
+                }
             }
         }
     }

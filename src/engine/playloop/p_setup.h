@@ -32,7 +32,7 @@
 
 
 // NOT called by W_Ticker. Fixme.
-void P_SetupLevel(int map, int playermask, skill_t skill);
+void P_SetupLevel(int map, int playermask, skill_t skill, bool spawn_mobjs);
 
 // Called by startup code.
 void P_Init(void);
