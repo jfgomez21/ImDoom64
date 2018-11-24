@@ -20,6 +20,12 @@ matrix:
             - g++-8
             - libpng-dev
             - libsdl2-net-dev
+        artifacts:
+          region: eu-central-1
+          working_dir: build
+          paths:
+            - imdoom64
+            - imdoom64.pk3
 
 before_install:
   - eval "${MATRIX_EVAL}"
@@ -46,7 +52,6 @@ before_install:
   - $CXX --version
   - meson --version
   - ninja --version
-
 
 script:
   # Compile our thing!

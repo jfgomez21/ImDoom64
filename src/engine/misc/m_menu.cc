@@ -1082,7 +1082,7 @@ extern cvar::BoolVar compat_limitpain;
 extern cvar::BoolVar compat_mobjpass;
 extern cvar::BoolVar compat_grabitems;
 extern cvar::BoolVar r_wipe;
-extern cvar::BoolVar r_rendersprites;
+extern cvar::IntVar  r_rendersprites;
 extern cvar::BoolVar r_texturecombiner;
 extern cvar::IntVar r_colorscale;
 
@@ -1574,7 +1574,7 @@ void M_ChangeOpacity(int choice);
 void M_DrawDisplay(void);
 
 extern cvar::IntVar st_drawhud;
-extern cvar::BoolVar st_crosshair;
+extern cvar::IntVar st_crosshair;
 extern cvar::FloatVar st_crosshairopacity;
 extern cvar::BoolVar st_flashoverlay;
 extern cvar::BoolVar st_showpendingweapon;

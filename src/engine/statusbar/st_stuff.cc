@@ -52,9 +52,10 @@
 #include "p_setup.h"
 #include "gl_draw.h"
 #include "g_demo.h"
+#include "image/image.hh"
 
 cvar::IntVar st_drawhud            = 1;
-cvar::BoolVar st_crosshair         = false;
+cvar::IntVar st_crosshair          = 0;
 cvar::FloatVar st_crosshairopacity = 80.0;
 cvar::BoolVar st_flashoverlay      = false;
 cvar::BoolVar st_regionmsg         = false;
@@ -1097,7 +1098,8 @@ void ST_Init(void) {
     st_crosshairs = 0;
 
     if(auto lump = wad::open(wad::Section::graphics, "CRSHAIRS")) {
-        st_crosshairs = (gfxwidth[lump->section_index()] / ST_CROSSHAIRSIZE);
+        auto image = lump->read_image();
+        st_crosshairs = (image->width() / ST_CROSSHAIRSIZE);
     }
 
     dmgmarkers.next = dmgmarkers.prev = &dmgmarkers;

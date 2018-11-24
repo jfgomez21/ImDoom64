@@ -25,7 +25,18 @@ before_build:
   - cmake -DCMAKE_TOOLCHAIN_FILE='C:\tools\vcpkg\scripts\buildsystems\vcpkg.cmake' .
 
 build_script:
-  - cmake --build .
+  - cmake --build . --config Release
+
+after_build:
+  - cp imdoom64.pk3 Release
+  - cd Release
+  - mv doom64.exe Doom64.exe
+  - 7z a ..\ImDoom64.zip * -tzip
+  - cd ..
+
+artifacts:
+  - path: ImDoom64.zip
+    name: ImDoom64
 
 # build:
 #   project: $(APPVEYOR_BUILD_FOLDER)\$(APPVEYOR_PROJECT_NAME).sln
